@@ -1,0 +1,1705 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BAEHR España — Redesign v3 Complete</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=Barlow+Condensed:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+
+:root {
+  --red: #CC0000;
+  --red-dark: #A50000;
+  --red-light: #FFF0F0;
+  --white: #FFFFFF;
+  --off-white: #F9F8F6;
+  --light-grey: #F2F2F0;
+  --mid-grey: #E8E8E4;
+  --border: #E0E0DC;
+  --text: #111111;
+  --muted: #76756F;
+  --dark: #181818;
+  --font-h: 'Barlow Condensed', sans-serif;
+  --font-b: 'Barlow', sans-serif;
+  --tr: 0.2s cubic-bezier(0.4,0,0.2,1);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:var(--font-b);background:var(--white);color:var(--text);font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased;}
+
+/* DEV TABS */
+.dev-tabs{position:fixed;top:0;left:0;right:0;z-index:9999;background:#111;display:flex;align-items:center;padding:0 20px;height:42px;border-bottom:2px solid var(--red);}
+.dev-tabs .lbl{color:rgba(255,255,255,.35);font-size:9px;letter-spacing:.16em;text-transform:uppercase;font-weight:700;margin-right:16px;font-family:var(--font-b);white-space:nowrap;}
+.dev-tab{height:42px;padding:0 14px;border:none;background:none;cursor:pointer;font-family:var(--font-b);font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.4);transition:color var(--tr);position:relative;white-space:nowrap;}
+.dev-tab:hover{color:rgba(255,255,255,.8);}
+.dev-tab.active{color:#fff;}
+.dev-tab.active::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:var(--red);}
+.page{display:none;padding-top:42px;}
+.page.active{display:block;}
+.tmpl-label{background:var(--red);color:#fff;padding:5px 24px;font-size:9px;letter-spacing:.18em;text-transform:uppercase;font-weight:700;}
+
+/* BAEHR LOGO */
+.logo-box{display:inline-flex;align-items:center;background:var(--red);padding:6px 14px;flex-shrink:0;}
+.logo-text{font-family:var(--font-h);font-size:24px;font-weight:900;color:#fff;letter-spacing:.05em;text-transform:uppercase;line-height:1;}
+.logo-sup{font-size:11px;vertical-align:super;margin-left:1px;}
+
+/* TOPBAR */
+.topbar{background:var(--dark);color:rgba(255,255,255,.7);text-align:center;font-size:11px;padding:7px 16px;font-weight:400;letter-spacing:.02em;}
+.topbar strong{color:#fff;}
+
+/* HEADER */
+.site-hdr{background:var(--white);border-bottom:1px solid var(--border);display:flex;align-items:stretch;height:66px;position:sticky;top:42px;z-index:100;}
+.hdr-logo{display:flex;align-items:center;padding:0 20px;border-right:1px solid var(--border);gap:8px;flex-shrink:0;}
+.hdr-sub{font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);}
+.hdr-nav{display:flex;align-items:center;flex:1;padding:0 20px;gap:0;overflow-x:auto;}
+.hdr-nav a{display:flex;align-items:center;height:66px;padding:0 12px;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--text);text-decoration:none;border-bottom:2px solid transparent;transition:color var(--tr),border-color var(--tr);white-space:nowrap;}
+.hdr-nav a:hover,.hdr-nav a.active{color:var(--red);border-bottom-color:var(--red);}
+.hdr-search{display:flex;align-items:center;border:1px solid var(--border);height:36px;margin:auto 16px;flex:1;max-width:300px;}
+.hdr-search input{flex:1;border:none;outline:none;padding:0 12px;font-size:12px;font-family:var(--font-b);color:var(--text);background:var(--off-white);height:100%;}
+.hdr-search input::placeholder{color:var(--muted);}
+.hdr-search button{height:100%;padding:0 12px;background:var(--red);border:none;color:#fff;cursor:pointer;font-size:12px;transition:background var(--tr);}
+.hdr-search button:hover{background:var(--red-dark);}
+.hdr-actions{display:flex;align-items:center;padding:0 16px;gap:2px;border-left:1px solid var(--border);flex-shrink:0;}
+.icon-btn{display:flex;align-items:center;gap:5px;background:none;border:none;cursor:pointer;font-family:var(--font-b);font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--text);padding:7px 10px;transition:color var(--tr);white-space:nowrap;}
+.icon-btn:hover{color:var(--red);}
+.badge{background:var(--red);color:#fff;border-radius:50%;width:16px;height:16px;font-size:8px;display:inline-flex;align-items:center;justify-content:center;font-weight:700;}
+
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;gap:8px;border:none;cursor:pointer;font-family:var(--font-b);font-weight:700;letter-spacing:.06em;text-transform:uppercase;transition:all var(--tr);text-decoration:none;}
+.btn-red{background:var(--red);color:#fff;padding:13px 28px;font-size:12px;}
+.btn-red:hover{background:var(--red-dark);}
+.btn-dark{background:var(--dark);color:#fff;padding:13px 28px;font-size:12px;}
+.btn-dark:hover{background:#2a2a2a;}
+.btn-wh{background:#fff;color:var(--text);padding:13px 28px;font-size:12px;}
+.btn-wh:hover{background:var(--off-white);}
+.btn-outline{background:transparent;color:var(--text);border:2px solid var(--border);padding:11px 26px;font-size:12px;}
+.btn-outline:hover{border-color:var(--text);}
+.btn-outline-wh{background:transparent;color:#fff;border:2px solid rgba(255,255,255,.4);padding:11px 26px;font-size:12px;}
+.btn-outline-wh:hover{border-color:#fff;background:rgba(255,255,255,.08);}
+.btn-sm{padding:9px 18px!important;font-size:11px!important;}
+
+/* =========================================
+   PAGE 1 — HOMEPAGE
+========================================= */
+
+/* HERO — split layout */
+.hero{display:grid;grid-template-columns:50% 50%;min-height:580px;}
+.hero-l{
+  position:relative;overflow:hidden;
+  display:flex;flex-direction:column;justify-content:flex-end;
+  padding:56px 52px;
+}
+.hero-l-img{
+  position:absolute;inset:0;
+  width:100%;height:100%;object-fit:cover;object-position:center top;
+  filter:brightness(0.45);
+}
+.hero-l-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(to top, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.3) 60%, rgba(0,0,0,0.1) 100%);
+}
+.hero-l-content{position:relative;z-index:2;}
+.hero-eyebrow{display:flex;align-items:center;gap:10px;margin-bottom:18px;}
+.hero-eyebrow-line{width:28px;height:2px;background:var(--red);}
+.hero-eyebrow-txt{font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.6);}
+.hero h1{font-family:var(--font-h);font-size:68px;font-weight:900;line-height:.92;color:#fff;text-transform:uppercase;letter-spacing:-.01em;margin-bottom:16px;}
+.hero h1 span{color:var(--red);}
+.hero-desc{font-size:14px;color:rgba(255,255,255,.65);max-width:420px;margin-bottom:32px;line-height:1.65;}
+.hero-ctas{display:flex;gap:12px;}
+.hero-stats{display:flex;gap:0;margin-top:44px;padding-top:28px;border-top:1px solid rgba(255,255,255,.12);}
+.hs{padding:0 24px 0 0;margin-right:24px;border-right:1px solid rgba(255,255,255,.12);}
+.hs:last-child{border:none;margin:0;padding:0;}
+.hs-n{font-family:var(--font-h);font-size:32px;font-weight:900;color:#fff;line-height:1;}
+.hs-l{font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-top:2px;}
+
+/* Hero right — product showcase */
+.hero-r{display:grid;grid-template-rows:1fr 220px;background:var(--light-grey);}
+.hero-r-main{
+  position:relative;overflow:hidden;
+  background:var(--dark);
+  display:flex;align-items:center;justify-content:center;
+}
+.hero-r-main-img{width:100%;height:100%;object-fit:cover;object-position:center;}
+.hero-r-badge{
+  position:absolute;bottom:20px;right:20px;
+  background:var(--red);padding:14px 18px;
+  display:flex;flex-direction:column;align-items:center;
+}
+.hero-r-badge-n{font-family:var(--font-h);font-size:32px;font-weight:900;color:#fff;line-height:1;}
+.hero-r-badge-t{font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.7);margin-top:2px;text-align:center;}
+.hero-r-products{display:grid;grid-template-columns:repeat(4,1fr);gap:0;background:var(--border);}
+.hero-mini{
+  background:var(--white);border:none;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:16px 8px;gap:6px;cursor:pointer;
+  transition:background var(--tr);text-align:center;
+}
+.hero-mini:hover{background:var(--off-white);}
+.hero-mini img{width:70px;height:70px;object-fit:contain;}
+.hero-mini-label{font-size:9px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);line-height:1.3;}
+
+/* CAT BAR */
+.cat-bar{background:var(--white);border-bottom:1px solid var(--border);display:flex;overflow-x:auto;}
+.cat-item{display:flex;align-items:center;gap:10px;padding:12px 20px;white-space:nowrap;cursor:pointer;border-right:1px solid var(--border);transition:background var(--tr);text-decoration:none;}
+.cat-item:hover{background:var(--off-white);}
+.cat-item.active{background:var(--red-light);}
+.cat-icon{width:32px;height:32px;background:var(--light-grey);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;}
+.cat-item.active .cat-icon{background:var(--red);color:#fff;}
+.cat-name{font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--text);}
+.cat-item.active .cat-name{color:var(--red);}
+.cat-count{font-size:10px;color:var(--muted);}
+
+/* SECTIONS */
+.sec{padding:60px 44px;}
+.sec-alt{background:var(--off-white);}
+.sec-dark{background:var(--dark);}
+.sec-head{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:32px;gap:20px;}
+.sec-title{font-family:var(--font-h);font-size:40px;font-weight:900;text-transform:uppercase;color:var(--text);line-height:.95;letter-spacing:-.01em;}
+.sec-title span{color:var(--red);}
+.sec-title-wh{color:#fff;}
+.sec-sub{font-size:13px;color:var(--muted);margin-top:6px;max-width:380px;}
+.view-all{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text);text-decoration:none;display:flex;align-items:center;gap:5px;white-space:nowrap;transition:color var(--tr);background:none;border:none;cursor:pointer;font-family:var(--font-b);}
+.view-all:hover{color:var(--red);}
+.view-all::after{content:'→';}
+
+/* PRODUCT GRID */
+.prod-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);}
+.prod-grid-3{grid-template-columns:repeat(3,1fr);}
+.prod-grid-5{grid-template-columns:repeat(5,1fr);}
+
+.prod-card{background:var(--white);position:relative;overflow:hidden;cursor:pointer;transition:box-shadow var(--tr);}
+.prod-card:hover{z-index:2;box-shadow:0 4px 28px rgba(0,0,0,.12);}
+.prod-img{aspect-ratio:1/1;background:var(--light-grey);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;}
+.prod-img img{width:100%;height:100%;object-fit:contain;padding:10px;transition:transform .3s ease;}
+.prod-card:hover .prod-img img{transform:scale(1.04);}
+.prod-tags{position:absolute;top:8px;left:8px;display:flex;flex-direction:column;gap:3px;}
+.ptag{display:inline-block;padding:3px 7px;font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;}
+.ptag-new{background:var(--dark);color:#fff;}
+.ptag-sale{background:var(--red);color:#fff;}
+.ptag-pro{background:#1a4a2e;color:#fff;}
+.prod-hover{position:absolute;bottom:0;left:0;right:0;background:var(--red);display:flex;transform:translateY(100%);transition:transform var(--tr);}
+.prod-card:hover .prod-hover{transform:translateY(0);}
+.add-btn{flex:1;height:40px;background:none;border:none;color:#fff;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;font-family:var(--font-b);display:flex;align-items:center;justify-content:center;gap:5px;transition:background var(--tr);}
+.add-btn:hover{background:var(--red-dark);}
+.wish-btn{width:40px;height:40px;background:rgba(0,0,0,.15);border:none;border-left:1px solid rgba(255,255,255,.2);color:#fff;cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center;}
+.prod-body{padding:12px 14px 16px;}
+.prod-cat{font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--red);margin-bottom:3px;}
+.prod-name{font-size:13px;font-weight:600;color:var(--text);margin-bottom:3px;line-height:1.3;}
+.prod-sub{font-size:11px;color:var(--muted);margin-bottom:8px;}
+.prod-price-row{display:flex;align-items:center;gap:7px;}
+.prod-price{font-family:var(--font-h);font-size:22px;font-weight:700;color:var(--text);}
+.prod-price-old{font-size:12px;color:var(--muted);text-decoration:line-through;}
+
+/* PROMO BANNER */
+.promo{background:var(--red);display:grid;grid-template-columns:1fr 1fr;min-height:380px;}
+.promo-l{padding:56px 52px;display:flex;flex-direction:column;justify-content:center;}
+.promo-eyebrow{font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.6);margin-bottom:14px;}
+.promo-title{font-family:var(--font-h);font-size:50px;font-weight:900;color:#fff;line-height:.92;text-transform:uppercase;letter-spacing:-.01em;margin-bottom:14px;}
+.promo-desc{font-size:14px;color:rgba(255,255,255,.72);max-width:380px;line-height:1.65;margin-bottom:26px;}
+.promo-ctas{display:flex;gap:12px;}
+.promo-r{position:relative;overflow:hidden;}
+.promo-r img{width:100%;height:100%;object-fit:cover;object-position:center;opacity:.7;}
+.promo-r-overlay{position:absolute;inset:0;background:linear-gradient(to right,var(--red) 0%,transparent 40%);}
+.promo-r-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:rgba(0,0,0,.2);width:100%;height:100%;}
+.promo-cell{background:rgba(0,0,0,.15);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;gap:6px;border:none;}
+.promo-cell-icon{font-size:24px;}
+.promo-cell-title{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#fff;text-align:center;}
+.promo-cell-val{font-family:var(--font-h);font-size:24px;font-weight:900;color:#fff;}
+
+/* ABOUT STRIP */
+.about-strip{display:grid;grid-template-columns:1fr 1fr;min-height:420px;}
+.about-strip-img{position:relative;overflow:hidden;}
+.about-strip-img img{width:100%;height:100%;object-fit:cover;}
+.about-strip-content{background:var(--dark);padding:60px 52px;display:flex;flex-direction:column;justify-content:center;}
+.about-strip-eyebrow{font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--red);margin-bottom:14px;}
+.about-strip-title{font-family:var(--font-h);font-size:46px;font-weight:900;text-transform:uppercase;color:#fff;line-height:.92;letter-spacing:-.01em;margin-bottom:14px;}
+.about-strip-title span{color:var(--red);}
+.about-strip-desc{font-size:13px;color:rgba(255,255,255,.6);line-height:1.7;max-width:400px;margin-bottom:28px;}
+.about-stats{display:flex;gap:24px;margin-bottom:28px;}
+.a-stat{display:flex;flex-direction:column;}
+.a-stat-n{font-family:var(--font-h);font-size:36px;font-weight:900;color:var(--red);line-height:1;}
+.a-stat-l{font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-top:2px;}
+
+/* SEMINAR SECTION */
+.seminar-strip{display:grid;grid-template-columns:1fr 1fr;min-height:360px;}
+.seminar-img{position:relative;overflow:hidden;}
+.seminar-img img{width:100%;height:100%;object-fit:cover;}
+.seminar-content{background:var(--off-white);padding:56px 52px;display:flex;flex-direction:column;justify-content:center;border-left:4px solid var(--red);}
+.seminar-eyebrow{font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--red);margin-bottom:14px;}
+.seminar-title{font-family:var(--font-h);font-size:40px;font-weight:900;text-transform:uppercase;color:var(--text);line-height:.95;margin-bottom:14px;}
+.seminar-desc{font-size:13px;color:var(--muted);line-height:1.7;max-width:380px;margin-bottom:24px;}
+.seminar-feats{display:flex;flex-direction:column;gap:10px;margin-bottom:24px;}
+.feat-row{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--text);}
+.feat-row::before{content:'';width:6px;height:6px;background:var(--red);border-radius:50%;flex-shrink:0;}
+
+/* USP */
+.usp-bar{background:var(--dark);display:grid;grid-template-columns:repeat(4,1fr);border-bottom:3px solid var(--red);}
+.usp-item{display:flex;align-items:center;gap:12px;padding:20px 24px;border-right:1px solid rgba(255,255,255,.07);}
+.usp-icon{font-size:20px;width:40px;height:40px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.usp-title{font-size:12px;font-weight:700;color:#fff;margin-bottom:2px;}
+.usp-text{font-size:11px;color:rgba(255,255,255,.4);}
+
+/* FOOTER */
+.footer{background:var(--dark);padding:52px 44px 28px;}
+.footer-top{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:44px;padding-bottom:44px;border-bottom:1px solid rgba(255,255,255,.07);}
+.footer-desc{font-size:12px;color:rgba(255,255,255,.4);line-height:1.7;max-width:250px;margin-top:12px;}
+.footer-col-title{font-size:9px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#fff;margin-bottom:14px;}
+.footer-links{list-style:none;display:flex;flex-direction:column;gap:9px;}
+.footer-links a{font-size:12px;color:rgba(255,255,255,.4);text-decoration:none;transition:color var(--tr);}
+.footer-links a:hover{color:var(--red);}
+.footer-bottom{display:flex;justify-content:space-between;align-items:center;padding-top:20px;font-size:10px;color:rgba(255,255,255,.25);}
+.f-badges{display:flex;gap:6px;}
+.f-badge{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);padding:3px 8px;font-size:9px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:rgba(255,255,255,.35);}
+
+/* =========================================
+   PAGE 2 — CONTENT
+========================================= */
+.content-hero{background:var(--dark);padding:60px 44px;border-bottom:4px solid var(--red);}
+.breadcrumb{display:flex;align-items:center;gap:7px;font-size:11px;color:rgba(255,255,255,.35);margin-bottom:20px;font-weight:500;}
+.breadcrumb span{color:rgba(255,255,255,.65);}
+.bc-sep{color:rgba(255,255,255,.2);}
+.content-hero-title{font-family:var(--font-h);font-size:60px;font-weight:900;text-transform:uppercase;color:#fff;line-height:.92;letter-spacing:-.01em;max-width:680px;margin-bottom:14px;}
+.content-hero-title span{color:var(--red);}
+.content-hero-desc{font-size:14px;color:rgba(255,255,255,.55);max-width:540px;line-height:1.65;}
+
+.content-layout{display:grid;grid-template-columns:1fr 300px;border-bottom:1px solid var(--border);}
+.content-main{padding:52px 56px 52px 44px;border-right:1px solid var(--border);}
+.content-sidebar{padding:44px 32px;}
+.content-main h2{font-family:var(--font-h);font-size:30px;font-weight:800;text-transform:uppercase;color:var(--text);margin:36px 0 14px;letter-spacing:-.01em;}
+.content-main h2 span{color:var(--red);}
+.content-main h2:first-child{margin-top:0;}
+.content-main p{font-size:14px;line-height:1.75;color:#2a2a2a;margin-bottom:14px;}
+.content-main ul{list-style:none;margin-bottom:20px;display:flex;flex-direction:column;gap:9px;}
+.content-main li{display:flex;align-items:flex-start;gap:9px;font-size:13px;line-height:1.6;color:#2a2a2a;}
+.content-main li::before{content:'';width:5px;height:5px;background:var(--red);border-radius:50%;flex-shrink:0;margin-top:7px;}
+.content-img-block{margin:28px 0;overflow:hidden;border:1px solid var(--border);}
+.content-img-block img{width:100%;height:280px;object-fit:cover;object-position:center top;display:block;}
+.pullquote{margin:28px 0;padding:24px 28px;border-left:4px solid var(--red);background:var(--off-white);}
+.pullquote p{font-family:var(--font-h);font-size:20px;font-style:italic;font-weight:600;color:var(--text);line-height:1.4;margin:0;}
+
+.s-card{background:var(--off-white);border:1px solid var(--border);margin-bottom:14px;}
+.s-card-head{padding:12px 16px;border-bottom:1px solid var(--border);font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--text);background:var(--white);}
+.s-card-body{padding:14px 16px;}
+.s-cat-list{list-style:none;}
+.s-cat-list li a{display:flex;justify-content:space-between;align-items:center;padding:8px 0;font-size:12px;color:var(--text);text-decoration:none;border-bottom:1px solid var(--border);transition:color var(--tr);font-weight:500;}
+.s-cat-list li a:hover{color:var(--red);}
+.s-cnt{font-size:9px;color:var(--muted);background:var(--white);border:1px solid var(--border);padding:2px 6px;border-radius:2px;}
+.s-prod{display:flex;gap:10px;align-items:center;padding:9px 0;border-bottom:1px solid var(--border);cursor:pointer;}
+.s-prod:last-child{border-bottom:none;}
+.s-prod-img{width:48px;height:48px;background:var(--white);border:1px solid var(--border);flex-shrink:0;display:flex;align-items:center;justify-content:center;overflow:hidden;}
+.s-prod-img img{width:100%;height:100%;object-fit:contain;}
+.s-prod-name{font-size:11px;font-weight:600;color:var(--text);margin-bottom:2px;line-height:1.3;}
+.s-prod-price{font-family:var(--font-h);font-size:16px;font-weight:700;color:var(--red);}
+
+.stats-band{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);}
+.stat-cell{background:var(--red);padding:36px 28px;}
+.stat-cell:nth-child(even){background:var(--red-dark);}
+.stat-n{font-family:var(--font-h);font-size:48px;font-weight:900;color:#fff;line-height:1;}
+.stat-l{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.6);margin-top:4px;}
+
+/* =========================================
+   PAGE 3 — CART
+========================================= */
+.cart-wrap{max-width:1200px;margin:0 auto;padding:44px;}
+.page-title{font-family:var(--font-h);font-size:42px;font-weight:900;text-transform:uppercase;letter-spacing:-.01em;color:var(--text);margin-bottom:5px;}
+.page-sub{font-size:13px;color:var(--muted);margin-bottom:36px;}
+
+.ship-prog{background:var(--off-white);border:1px solid var(--border);padding:14px 20px;margin-bottom:28px;}
+.ship-prog-head{display:flex;justify-content:space-between;font-size:12px;font-weight:700;margin-bottom:8px;}
+.ship-bar{height:4px;background:var(--border);border-radius:99px;overflow:hidden;}
+.ship-fill{height:100%;background:var(--red);width:65%;border-radius:99px;}
+.ship-note{font-size:11px;color:var(--muted);margin-top:6px;}
+
+.cart-layout{display:grid;grid-template-columns:1fr 340px;gap:24px;align-items:flex-start;}
+
+.cart-head{display:grid;grid-template-columns:80px 1fr 100px 136px 88px;gap:14px;padding:0 0 10px;border-bottom:2px solid var(--border);font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);}
+.cart-row{display:grid;grid-template-columns:80px 1fr 100px 136px 88px;gap:14px;padding:18px 0;border-bottom:1px solid var(--border);align-items:center;}
+.c-img{width:80px;height:80px;background:var(--light-grey);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;overflow:hidden;}
+.c-img img{width:100%;height:100%;object-fit:contain;}
+.c-name{font-size:13px;font-weight:600;color:var(--text);margin-bottom:3px;line-height:1.3;}
+.c-meta{font-size:11px;color:var(--muted);margin-bottom:7px;}
+.c-rem{background:none;border:none;cursor:pointer;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-family:var(--font-b);padding:0;transition:color var(--tr);}
+.c-rem:hover{color:var(--red);}
+.c-unit{font-size:13px;color:var(--muted);}
+.qty{display:flex;align-items:center;border:1px solid var(--border);}
+.qty-b{width:34px;height:34px;background:var(--off-white);border:none;cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;color:var(--text);transition:background var(--tr);}
+.qty-b:hover{background:var(--mid-grey);}
+.qty-b:first-child{border-right:1px solid var(--border);}
+.qty-b:last-child{border-left:1px solid var(--border);}
+.qty-v{width:40px;height:34px;text-align:center;border:none;font-size:13px;font-weight:600;font-family:var(--font-b);color:var(--text);background:var(--white);}
+.c-total{font-family:var(--font-h);font-size:22px;font-weight:700;color:var(--text);text-align:right;}
+
+.cross-sell{margin-top:20px;padding:20px;background:var(--off-white);border:1px solid var(--border);}
+.cross-sell-title{font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--text);margin-bottom:14px;}
+.cross-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
+.cross-card{background:var(--white);border:1px solid var(--border);padding:12px;display:flex;gap:9px;align-items:center;cursor:pointer;transition:border-color var(--tr);}
+.cross-card:hover{border-color:var(--red);}
+.cross-img{width:44px;height:44px;flex-shrink:0;overflow:hidden;}
+.cross-img img{width:100%;height:100%;object-fit:contain;}
+.cross-name{font-size:11px;font-weight:600;color:var(--text);margin-bottom:3px;line-height:1.3;}
+.cross-price{font-family:var(--font-h);font-size:16px;font-weight:700;color:var(--red);}
+.cross-add{width:28px;height:28px;background:var(--red);border:none;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:15px;margin-left:auto;flex-shrink:0;transition:background var(--tr);}
+.cross-add:hover{background:var(--red-dark);}
+
+.os{background:var(--off-white);border:1px solid var(--border);padding:22px;position:sticky;top:110px;}
+.os-title{font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--text);margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--border);}
+.coup-row{display:flex;gap:7px;margin-bottom:14px;}
+.coup-input{flex:1;border:1px solid var(--border);padding:9px 12px;font-size:12px;font-family:var(--font-b);background:var(--white);color:var(--text);outline:none;}
+.coup-input:focus{border-color:var(--red);}
+.coup-input::placeholder{color:var(--muted);}
+.os-row{display:flex;justify-content:space-between;padding:9px 0;font-size:13px;border-bottom:1px solid var(--border);}
+.os-l{color:var(--muted);}
+.os-v{font-weight:600;color:var(--text);}
+.os-total{display:flex;justify-content:space-between;align-items:baseline;padding:14px 0 18px;}
+.os-total-l{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;}
+.os-total-v{font-family:var(--font-h);font-size:32px;font-weight:900;color:var(--red);}
+.trust-row{display:flex;gap:8px;justify-content:center;margin-top:12px;padding-top:12px;border-top:1px solid var(--border);}
+.trust-item{display:flex;flex-direction:column;align-items:center;gap:2px;font-size:9px;color:var(--muted);font-weight:700;letter-spacing:.06em;text-transform:uppercase;text-align:center;}
+.pay-box{margin-top:10px;padding:12px;background:var(--white);border:1px solid var(--border);}
+.pay-title{font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);text-align:center;margin-bottom:8px;}
+.pay-row{display:flex;gap:5px;flex-wrap:wrap;justify-content:center;}
+.pay-icon{background:var(--off-white);border:1px solid var(--border);padding:4px 9px;font-size:9px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);}
+
+/* =========================================
+   PAGE 4 — CONFIRMATION
+========================================= */
+.confirm-wrap{min-height:calc(100vh - 110px);background:var(--off-white);padding:56px 44px;display:flex;justify-content:center;}
+.confirm-inner{max-width:680px;width:100%;}
+.confirm-head{text-align:center;margin-bottom:40px;padding-bottom:40px;border-bottom:1px solid var(--border);}
+.confirm-check{width:72px;height:72px;background:var(--red);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;font-size:28px;color:#fff;}
+.confirm-title{font-family:var(--font-h);font-size:44px;font-weight:900;text-transform:uppercase;color:var(--text);margin-bottom:8px;line-height:1;letter-spacing:-.01em;}
+.confirm-title span{color:var(--red);}
+.confirm-sub{font-size:13px;color:var(--muted);line-height:1.7;max-width:460px;margin:0 auto;}
+.ord-ref{display:inline-flex;align-items:center;gap:7px;margin-top:14px;padding:7px 14px;background:var(--white);border:1px solid var(--border);font-size:11px;color:var(--muted);}
+.ord-ref code{font-family:monospace;font-size:12px;font-weight:700;color:var(--text);letter-spacing:.06em;}
+
+.ns-banner{background:var(--dark);padding:20px 22px;margin-bottom:14px;display:flex;gap:14px;align-items:flex-start;border-left:4px solid var(--red);}
+.ns-icon{font-size:22px;flex-shrink:0;}
+.ns-title{font-size:13px;font-weight:700;color:#fff;margin-bottom:4px;}
+.ns-text{font-size:12px;color:rgba(255,255,255,.5);line-height:1.6;}
+
+.c-block{background:var(--white);border:1px solid var(--border);margin-bottom:14px;overflow:hidden;}
+.c-block-head{padding:12px 20px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;background:var(--off-white);}
+.c-block-title{font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--text);}
+.c-block-body{padding:18px 20px;}
+.oi-row{display:flex;gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid var(--border);}
+.oi-row:last-child{border-bottom:none;}
+.oi-img{width:52px;height:52px;background:var(--light-grey);border:1px solid var(--border);flex-shrink:0;overflow:hidden;display:flex;align-items:center;justify-content:center;}
+.oi-img img{width:100%;height:100%;object-fit:contain;}
+.oi-name{font-size:13px;font-weight:600;color:var(--text);margin-bottom:2px;}
+.oi-meta{font-size:11px;color:var(--muted);}
+.oi-price{margin-left:auto;font-family:var(--font-h);font-size:20px;font-weight:700;color:var(--text);flex-shrink:0;}
+
+.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);}
+.info-cell{background:var(--white);padding:16px 20px;}
+.info-label{font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:5px;}
+.info-val{font-size:13px;color:var(--text);line-height:1.6;}
+.info-val strong{font-weight:600;}
+.info-val a{color:var(--red);text-decoration:none;font-size:11px;font-weight:600;}
+
+.totals-block{background:var(--white);border:1px solid var(--border);margin-bottom:14px;}
+.t-row{display:flex;justify-content:space-between;padding:10px 20px;font-size:13px;border-bottom:1px solid var(--border);}
+.t-label{color:var(--muted);}
+.t-val{font-weight:600;color:var(--text);}
+.t-total{display:flex;justify-content:space-between;align-items:center;padding:16px 20px;}
+.t-total-label{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;}
+.t-total-val{font-family:var(--font-h);font-size:30px;font-weight:900;color:var(--red);}
+
+.confirm-actions{display:flex;gap:10px;margin-top:6px;flex-wrap:wrap;}
+
+.pro-upsell{margin-top:28px;padding:22px;background:var(--dark);display:flex;gap:16px;align-items:center;border-bottom:3px solid var(--red);}
+.pu-icon{font-size:28px;flex-shrink:0;}
+.pu-title{font-size:13px;font-weight:700;color:#fff;margin-bottom:3px;}
+.pu-text{font-size:12px;color:rgba(255,255,255,.45);line-height:1.6;}
+
+/* =========================================
+   STYLE GUIDE
+========================================= */
+.sg-intro{background:var(--dark);padding:52px 44px;border-bottom:4px solid var(--red);}
+.sg-intro h1{font-family:var(--font-h);font-size:48px;font-weight:900;text-transform:uppercase;color:#fff;margin-bottom:7px;letter-spacing:-.01em;}
+.sg-intro h1 span{color:var(--red);}
+.sg-intro p{font-size:13px;color:rgba(255,255,255,.45);max-width:500px;line-height:1.65;}
+.sg-sec{padding:44px;}
+.sg-sec-alt{background:var(--off-white);}
+.sg-title{font-size:9px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:24px;}
+.color-grid{display:flex;gap:12px;flex-wrap:wrap;}
+.swatch{display:flex;flex-direction:column;gap:6px;}
+.sw-block{width:80px;height:80px;border:1px solid var(--border);}
+.sw-name{font-size:10px;font-weight:600;color:var(--text);font-family:monospace;}
+.sw-hex{font-size:10px;color:var(--muted);font-family:monospace;}
+.type-samples{display:flex;flex-direction:column;gap:24px;}
+.type-label{font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:4px;}
+.btn-grid{display:flex;flex-direction:column;gap:20px;}
+.btn-row-demo{display:flex;gap:10px;align-items:center;flex-wrap:wrap;}
+.btn-row-label{font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);width:100%;margin-bottom:3px;}
+.code-note{font-size:10px;font-family:monospace;color:var(--muted);margin-top:6px;padding:7px 10px;background:var(--off-white);border:1px solid var(--border);}
+.dev-tag{display:inline-flex;align-items:center;background:#FFF8E6;border:1px solid #FFD43B;padding:2px 7px;font-size:9px;font-family:monospace;color:#664D03;margin-bottom:7px;}
+.space-demo{display:flex;gap:10px;align-items:flex-end;}
+.sp-block{background:var(--red);opacity:.4;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding-bottom:3px;}
+.sp-val{font-size:9px;color:var(--text);font-family:monospace;}
+
+
+/* ── ADDITIONAL STYLES FOR COMPLETED PAGES ── */
+.confirm-wrap{min-height:auto;}
+.pro-upsell{margin-top:20px;}
+.pu-icon{font-size:28px;flex-shrink:0;}
+.pu-title{font-size:13px;font-weight:700;color:#fff;margin-bottom:3px;}
+.pu-text{font-size:12px;color:rgba(255,255,255,.45);line-height:1.6;}
+
+</style>
+</head>
+<body>
+
+<!-- DEV TABS -->
+<nav class="dev-tabs">
+  <span class="lbl">BAEHR España — Redesign v3 · Complete</span>
+  <button class="dev-tab active" onclick="show('p1')">01 Homepage</button>
+  <button class="dev-tab" onclick="show('p2')">02 Content Page</button>
+  <button class="dev-tab" onclick="show('p3')">03 Cart / Basket</button>
+  <button class="dev-tab" onclick="show('p4')">04 Order Confirmation</button>
+  <button class="dev-tab" onclick="show('p5')">Style Guide</button>
+</nav>
+
+<!-- ========== PAGE 1: HOMEPAGE ========== -->
+<div class="page active" id="p1">
+  <div class="tmpl-label">Template 01 — Main / Home Page</div>
+  <div class="topbar">🇩🇪 German professional cosmetics since 1949 &nbsp;·&nbsp; <strong>Free shipping over €60</strong> &nbsp;·&nbsp; ISO Certified Quality &nbsp;·&nbsp; Professional accounts available</div>
+  <header class="site-hdr">
+    <div class="hdr-logo">
+      <div class="logo-box"><span class="logo-text">BAEHR<span class="logo-sup">®</span></span></div>
+      <span class="hdr-sub">España</span>
+    </div>
+    <nav class="hdr-nav">
+      <a href="#" class="active">Home</a>
+      <a href="#">Foot Care</a>
+      <a href="#">Hand Care</a>
+      <a href="#">Nails</a>
+      <a href="#">Instruments</a>
+      <a href="#">Pro Line</a>
+      <a href="#">Gifts</a>
+      <a href="#">About</a>
+    </nav>
+    <div class="hdr-search">
+      <input type="text" placeholder="Search products, ingredients…">
+      <button>🔍</button>
+    </div>
+    <div class="hdr-actions">
+      <button class="icon-btn">👤 Account</button>
+      <button class="icon-btn">🛒 Cart <span class="badge">3</span></button>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-l">
+      <img src="https://i.ibb.co.com/rfM0nhsR/Screenshot-73.jpg" alt="BAEHR lifestyle" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top;filter:brightness(0.45);">
+      <div class="hero-l-overlay"></div>
+      <div class="hero-l-content">
+        <div class="hero-eyebrow">
+          <div class="hero-eyebrow-line"></div>
+          <span class="hero-eyebrow-txt">Professional Cosmeceuticals · Since 1949</span>
+        </div>
+        <h1>German<br><span>Science</span><br>For Your<br>Skin</h1>
+        <p class="hero-desc">Professional-grade foot and hand cosmeceuticals trusted by podiatrists and beauty salons in 40+ countries. ISO certified. Formulated in Hamburg.</p>
+        <div class="hero-ctas">
+          <button class="btn btn-red">Shop Collection →</button>
+          <button class="btn btn-outline-wh">Professional Line</button>
+        </div>
+        <div class="hero-stats">
+          <div class="hs"><div class="hs-n">1949</div><div class="hs-l">Founded</div></div>
+          <div class="hs"><div class="hs-n">40+</div><div class="hs-l">Countries</div></div>
+          <div class="hs"><div class="hs-n">ISO</div><div class="hs-l">Certified</div></div>
+          <div class="hs"><div class="hs-n">500+</div><div class="hs-l">Products</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="hero-r">
+      <div class="hero-r-main">
+        <img src="https://i.ibb.co.com/d4Mm00mf/Screenshot-65.jpg" alt="BAEHR luxury product" style="width:100%;height:100%;object-fit:cover;object-position:center;">
+        <div class="hero-r-badge">
+          <div class="hero-r-badge-n">75+</div>
+          <div class="hero-r-badge-t">Years of<br>Excellence</div>
+        </div>
+      </div>
+      <div class="hero-r-products">
+        <div class="hero-mini">
+          <img src="https://i.ibb.co.com/tpmFJ7rc/Screenshot-70.jpg" alt="Cream Foam" style="width:100%;height:100%;object-fit:contain;">
+          <div class="hero-mini-label">Foot Cream</div>
+        </div>
+        <div class="hero-mini">
+          <img src="https://i.ibb.co.com/vv319YdX/Screenshot-71.jpg" alt="Hand Cream" style="width:100%;height:100%;object-fit:contain;">
+          <div class="hero-mini-label">Hand Cream</div>
+        </div>
+        <div class="hero-mini">
+          <img src="https://i.ibb.co.com/8gwJ8k8t/Screenshot-67.jpg" alt="Ampullen" style="width:100%;height:100%;object-fit:contain;">
+          <div class="hero-mini-label">Ampoules</div>
+        </div>
+        <div class="hero-mini" style="background:var(--red);">
+          <img src="https://i.ibb.co.com/z06ksqq/Screenshot-63.jpg" alt="Massage Candle" style="width:100%;height:100%;object-fit:contain;">
+          <div class="hero-mini-label" style="color:rgba(255,255,255,.7);">Body Care</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CATEGORY BAR -->
+  <div class="cat-bar">
+    <a class="cat-item active" href="#"><div class="cat-icon">🦶</div><div><div class="cat-name">Foot Care</div><div class="cat-count">48 products</div></div></a>
+    <a class="cat-item" href="#"><div class="cat-icon">🤲</div><div><div class="cat-name">Hand Care</div><div class="cat-count">24 products</div></div></a>
+    <a class="cat-item" href="#"><div class="cat-icon">🧪</div><div><div class="cat-name">Therapeutic</div><div class="cat-count">31 products</div></div></a>
+    <a class="cat-item" href="#"><div class="cat-icon">💅</div><div><div class="cat-name">Nails & Cuticles</div><div class="cat-count">19 products</div></div></a>
+    <a class="cat-item" href="#"><div class="cat-icon">✂️</div><div><div class="cat-name">Instruments</div><div class="cat-count">62 products</div></div></a>
+    <a class="cat-item" href="#"><div class="cat-icon">👩‍⚕️</div><div><div class="cat-name">Pro Line</div><div class="cat-count">44 products</div></div></a>
+    <a class="cat-item" href="#"><div class="cat-icon">🎁</div><div><div class="cat-name">Gift Sets</div><div class="cat-count">12 products</div></div></a>
+  </div>
+
+  <!-- BESTSELLERS -->
+  <div class="sec">
+    <div class="sec-head">
+      <div>
+        <div class="sec-title">Top <span>Sellers</span></div>
+        <div class="sec-sub">Most trusted by podiatrists and salons across Spain</div>
+      </div>
+      <button class="view-all">View all products</button>
+    </div>
+    <div class="prod-grid">
+      <div class="prod-card">
+        <div class="prod-img">
+          <img src="https://i.ibb.co.com/tpmFJ7rc/Screenshot-70.jpg" alt="PEDIBAEHR Cream Foam with Propolis" style="width:100%;height:100%;object-fit:contain;">
+          <div class="prod-tags"><span class="ptag ptag-pro">Pro</span></div>
+          <div class="prod-hover">
+            <button class="add-btn">+ Add to Cart</button>
+            <button class="wish-btn">♡</button>
+          </div>
+        </div>
+        <div class="prod-body">
+          <div class="prod-cat">Foot Care · Cream Foam</div>
+          <div class="prod-name">PEDIBAEHR Cremeschaum mit Propolis</div>
+          <div class="prod-sub">50ml · Antibacterial Formula</div>
+          <div class="prod-price-row"><span class="prod-price">€9.15</span></div>
+        </div>
+      </div>
+      <div class="prod-card">
+        <div class="prod-img">
+          <img src="https://i.ibb.co.com/vv319YdX/Screenshot-71.jpg" alt="BAEHR Hand Cream" style="width:100%;height:100%;object-fit:contain;">
+          <div class="prod-tags"><span class="ptag ptag-new">New</span></div>
+          <div class="prod-hover">
+            <button class="add-btn">+ Add to Cart</button>
+            <button class="wish-btn">♡</button>
+          </div>
+        </div>
+        <div class="prod-body">
+          <div class="prod-cat">Hand Care · Cream</div>
+          <div class="prod-name">BAEHR Handcreme All Day</div>
+          <div class="prod-sub">75ml · Cranberry & Macadamia</div>
+          <div class="prod-price-row"><span class="prod-price">€12.40</span></div>
+        </div>
+      </div>
+      <div class="prod-card">
+        <div class="prod-img">
+          <img src="https://i.ibb.co.com/8gwJ8k8t/Screenshot-67.jpg" alt="BAEHR Ampullen Cashmere" style="width:100%;height:100%;object-fit:contain;">
+          <div class="prod-tags"><span class="ptag ptag-pro">Pro</span><span class="ptag ptag-sale">−15%</span></div>
+          <div class="prod-hover">
+            <button class="add-btn">+ Add to Cart</button>
+            <button class="wish-btn">♡</button>
+          </div>
+        </div>
+        <div class="prod-body">
+          <div class="prod-cat">Face · Ampoules</div>
+          <div class="prod-name">BAEHR Ampullen Cashmere</div>
+          <div class="prod-sub">10 x 2ml · Anti-Aging Treatment</div>
+          <div class="prod-price-row"><span class="prod-price">€18.50</span><span class="prod-price-old">€21.80</span></div>
+        </div>
+      </div>
+      <div class="prod-card">
+        <div class="prod-img">
+          <img src="https://i.ibb.co.com/39tWTQ8S/Screenshot-68.jpg" alt="Satin Pearl Hand Cream" style="width:100%;height:100%;object-fit:contain;">
+          <div class="prod-hover">
+            <button class="add-btn">+ Add to Cart</button>
+            <button class="wish-btn">♡</button>
+          </div>
+        </div>
+        <div class="prod-body">
+          <div class="prod-cat">Hand Care · Premium</div>
+          <div class="prod-name">Satin-Pearl Handcreme</div>
+          <div class="prod-sub">75ml · Anti-Aging Formula</div>
+          <div class="prod-price-row"><span class="prod-price">€14.75</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PROMO BANNER -->
+  <div class="promo">
+    <div class="promo-l">
+      <div class="promo-eyebrow">Exclusive Access · Proxy Beauty Spain</div>
+      <div class="promo-title">Open a<br>Professional<br>Account</div>
+      <p class="promo-desc">Over 300 salons and clinics in Spain trust BAEHR for their daily professional treatments. Unlock exclusive pricing, bulk ordering, and dedicated expert support.</p>
+      <div class="promo-ctas">
+        <button class="btn btn-dark">Register as Pro →</button>
+        <button class="btn btn-outline-wh btn-sm">Learn More</button>
+      </div>
+    </div>
+    <div class="promo-r">
+      <img src="https://i.ibb.co.com/pjsR2xcH/Screenshot-61-Copy.jpg" alt="BAEHR seminar" style="width:100%;height:100%;object-fit:cover;opacity:0.5;">
+      <div class="promo-r-overlay"></div>
+      <div class="promo-r-grid" style="position:absolute;inset:0;">
+        <div class="promo-cell"><div class="promo-cell-icon">💰</div><div class="promo-cell-title">Volume Pricing</div><div class="promo-cell-val">−30%</div></div>
+        <div class="promo-cell"><div class="promo-cell-icon">🚚</div><div class="promo-cell-title">Fast Dispatch</div><div class="promo-cell-val">24h</div></div>
+        <div class="promo-cell"><div class="promo-cell-icon">📚</div><div class="promo-cell-title">Free Seminars</div><div class="promo-cell-val">Incl.</div></div>
+        <div class="promo-cell"><div class="promo-cell-icon">🎧</div><div class="promo-cell-title">Dedicated Support</div><div class="promo-cell-val">1–1</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GIFTS / SEASONAL -->
+  <div class="sec sec-alt">
+    <div class="sec-head">
+      <div>
+        <div class="sec-title">Gift <span>Selection</span></div>
+        <div class="sec-sub">Beautifully presented BAEHR gift sets and seasonal specials</div>
+      </div>
+      <button class="view-all">View all gifts</button>
+    </div>
+    <div class="prod-grid prod-grid-3">
+      <div class="prod-card">
+        <div class="prod-img" style="background:#F5F0EC;">
+          <img src="https://i.ibb.co.com/vxFMkmRc/Screenshot-62.jpg" alt="Christmas gift set" style="width:100%;height:100%;object-fit:contain;">
+          <div class="prod-tags"><span class="ptag ptag-new">Seasonal</span></div>
+          <div class="prod-hover"><button class="add-btn">+ Add to Cart</button><button class="wish-btn">♡</button></div>
+        </div>
+        <div class="prod-body">
+          <div class="prod-cat">Gift Sets · Christmas</div>
+          <div class="prod-name">Frohe Weihnachten — Foot Cream Trio</div>
+          <div class="prod-sub">3 x 30ml tubes · Luxury Gift Box</div>
+          <div class="prod-price-row"><span class="prod-price">€22.90</span></div>
+        </div>
+      </div>
+      <div class="prod-card">
+        <div class="prod-img" style="background:#F0EEE8;">
+          <img src="https://i.ibb.co.com/d4Mm00mf/Screenshot-65.jpg" alt="BAEHR Gold Champagne Bottle" style="width:100%;height:100%;object-fit:contain;">
+          <div class="prod-tags"><span class="ptag ptag-sale">Limited</span></div>
+          <div class="prod-hover"><button class="add-btn">+ Add to Cart</button><button class="wish-btn">♡</button></div>
+        </div>
+        <div class="prod-body">
+          <div class="prod-cat">Body Lotion · Luxury</div>
+          <div class="prod-name">BAEHR Gold Body Lotion — Champagne Edition</div>
+          <div class="prod-sub">200ml · Gold-leaf bottle design</div>
+          <div class="prod-price-row"><span class="prod-price">€31.50</span></div>
+        </div>
+      </div>
+      <div class="prod-card">
+        <div class="prod-img" style="background:#F5E8E8;">
+          <img src="https://i.ibb.co.com/SwYpqmTW/Screenshot-69.jpg" alt="BAEHR Christmas Tree Box" style="width:100%;height:100%;object-fit:contain;">
+          <div class="prod-tags"><span class="ptag ptag-new">Seasonal</span></div>
+          <div class="prod-hover"><button class="add-btn">+ Add to Cart</button><button class="wish-btn">♡</button></div>
+        </div>
+        <div class="prod-body">
+          <div class="prod-cat">Gift Sets · Festive</div>
+          <div class="prod-name">BAEHR Creme Forte Panthenol — Christmas Tree Edition</div>
+          <div class="prod-sub">100ml · Festive packaging</div>
+          <div class="prod-price-row"><span class="prod-price">€18.90</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MORE PRODUCTS -->
+  <div class="sec">
+    <div class="sec-head">
+      <div>
+        <div class="sec-title">New <span>Arrivals</span></div>
+        <div class="sec-sub">Latest additions to the BAEHR España catalogue</div>
+      </div>
+      <button class="view-all">See all</button>
+    </div>
+    <div class="prod-grid" style="grid-template-columns:repeat(5,1fr);">
+      <div class="prod-card">
+        <div class="prod-img"><img src="https://i.ibb.co.com/YTDgv1h5/Screenshot-64.jpg" alt="Vanillekipferl Handpeeling" style="width:100%;height:100%;object-fit:contain;"><div class="prod-tags"><span class="ptag ptag-new">New</span></div><div class="prod-hover"><button class="add-btn">+ Add</button></div></div>
+        <div class="prod-body">
+          <div class="prod-cat">Hand · Peeling</div>
+          <div class="prod-name">Vanillekipferl Handpeeling</div>
+          <div class="prod-sub">75ml · Dry Skin</div>
+          <div class="prod-price-row"><span class="prod-price">€11.40</span></div>
+        </div>
+      </div>
+      <div class="prod-card">
+        <div class="prod-img"><img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEAeAB4AAD/2wBDAAMCAgMCAgMDAwMEAwMEBQgFBQQEBQoHBwYIDAoMDAsKCwsNDhIQDQ4RDgsLEBYQERMUFRUVDA8XGBYUGBIUFRT/2wBDAQMEBAUEBQkFBQkUDQsNFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBT/wAARCAFtAXUDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD9OYfDti8an7LD/wB+xT/+Easf+fWH/vgVo23+qWpqAMj/AIRqx/59Yf8AvgUf8I1Y/wDPrD/3wK16KAMj/hGrH/n1h/74FH/CNWP/AD6w/wDfArXooAyP+Easf+fWH/vgUf8ACNWP/PrD/wB8CteigDI/4Rqx/wCfWH/vgUf8I1Y/8+sP/fArXooAyP8AhGrH/n1h/wC+BR/wjVj/AM+sP/fArXooAyP+Easf+fWH/vgUf8I1Y/8APrD/AN8CteigDI/4Rqx/59Yf++BR/wAI1Y/8+sP/AHwK16KAMj/hGrH/AJ9Yf++BR/wjVj/z6w/98CteigDI/wCEasf+fWH/AL4FH/CNWP8Az6w/98CteigDI/4Rqx/59Yf++BR/wjVj/wA+sP8A3wK16KAMj/hGrH/n1h/74FH/AAjVj/z6w/8AfArXooAyP+Easf8An1h/74FH/CNWP/PrD/3wK16KAMj/AIRqx/59Yf8AvgUf8I1Y/wDPrD/3wK16KAMj/hGrH/n1h/74FH/CNWP/AD6w/wDfArXooAyP+Easf+fWH/vgUf8ACNWP/PrD/wB8CteigDI/4Rqx/wCfWH/vgUf8I1Y/8+sP/fArXooAyP8AhGrH/n1h/wC+BR/wjVj/AM+sP/fArXooAyP+Easf+fWH/vgUf8I1Y/8APrD/AN8CteigDI/4Rqx/59Yf++BR/wAI1Y/8+sP/AHwK16KAMj/hGrH/AJ9Yf++BR/wjVj/z6w/98CteigDI/wCEasf+fWH/AL4FH/CNWP8Az6w/98CteigDI/4Rqx/59Yf++BR/wjVj/wA+sP8A3wK16KAOels4dPvnSGNY1MSEhRgZy1FTap/yEm/65J/NqKANW2/1S1NUNt/qlqagAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAxNU/5CTf8AXJP5tRRqn/ISb/rkn82ooA1bb/VLU1Q23+qWpqACiiigAooooAKKKKACiiigAooooAKKKKACiiigAopGYKCScAVm3N8ZOE4Ws51FTV2NK5ekuEj75PtVZ9QycKMVSMpamFsc1xSryltoWol0XbMepqxDcFmAPesgTBT6Con1iNdStLWNt0kj8+wqI1ZJq7BxOlooor1DMKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigDE1T/AJCTf9ck/m1FGqf8hJv+uSfzaigDVtv9UtTVDbf6pamoAKKKKACiiigAooooAKKKKACiiigAooooAKKKKAMzU7sLIIs4HU1UDD61i+K9Say1Z+flwP5Vjt4w8scgV4dareo0zojHS52IKjvVW7vIYVJaVV/GvPNV8dTgkRcdq5a9166vm/eStg9hXP7a2xfJc7/WfGsVqXjhbzZBxkdBWR4Q1GW+8XWUkzlmZ8e1cjG28Z/nXQeBs/8ACV6f6eYKIScpr1Kkkke90UUV9IcQUUUUAFFFFABRRRQA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" alt="Hydracolor SPF50" style="width:100%;height:100%;object-fit:contain;"><div class="prod-tags"><span class="ptag ptag-new">New</span></div><div class="prod-hover"><button class="add-btn">+ Add</button></div></div>
+        <div class="prod-body">
+          <div class="prod-cat">Lip Care · SPF</div>
+          <div class="prod-name">HYDRACOLOR Lip Balm SPF50</div>
+          <div class="prod-sub">4.8g · Paraben Free</div>
+          <div class="prod-price-row"><span class="prod-price">€8.50</span></div>
+        </div>
+      </div>
+      <div class="prod-card">
+        <div class="prod-img"><img src="https://i.ibb.co.com/z06ksqq/Screenshot-63.jpg" alt="Massage Candle" style="width:100%;height:100%;object-fit:contain;"><div class="prod-hover"><button class="add-btn">+ Add</button></div></div>
+        <div class="prod-body">
+          <div class="prod-cat">Wellness · Massage</div>
+          <div class="prod-name">BAEHR Massagekerze — Japanese Plum</div>
+          <div class="prod-sub">50ml tin · Massage Oil Candle</div>
+          <div class="prod-price-row"><span class="prod-price">€19.80</span></div>
+        </div>
+      </div>
+      <div class="prod-card">
+        <div class="prod-img"><img src="https://i.ibb.co.com/jPw94kT2/Screenshot-72.jpg" alt="Organza Gift Bag" style="width:100%;height:100%;object-fit:contain;"><div class="prod-hover"><button class="add-btn">+ Add</button></div></div>
+        <div class="prod-body">
+          <div class="prod-cat">Gift Accessories</div>
+          <div class="prod-name">Silver Star Organza Gift Bag</div>
+          <div class="prod-sub">15 x 20cm · Pack of 10</div>
+          <div class="prod-price-row"><span class="prod-price">€6.90</span></div>
+        </div>
+      </div>
+      <div class="prod-card" style="background:var(--red);">
+        <div class="prod-img" style="background:var(--red-dark);aspect-ratio:1/1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;">
+          <div style="font-size:32px;">🎁</div>
+          <div style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.7);text-align:center;">View All<br>Gift Sets</div>
+        </div>
+        <div class="prod-body" style="background:var(--red);">
+          <div class="prod-cat" style="color:rgba(255,255,255,.6);">12 gift sets</div>
+          <div class="prod-name" style="color:#fff;">Explore the Full Gift Range</div>
+          <div class="prod-sub" style="color:rgba(255,255,255,.6);">Perfect for any occasion</div>
+          <div class="prod-price-row"><button class="btn btn-dark btn-sm" style="font-size:9px;padding:7px 14px;">Browse →</button></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ABOUT STRIP -->
+  <div class="about-strip">
+    <div class="about-strip-img">
+      <img src="https://i.ibb.co.com/zTrBQCfR/Screenshot-60-Copy.jpg" alt="BAEHR trade fair booth" style="width:100%;height:100%;object-fit:cover;">
+    </div>
+    <div class="about-strip-content">
+      <div class="about-strip-eyebrow">German Heritage · Since 1949</div>
+      <div class="about-strip-title"><span>BAEHR</span><br>Beauty<br>Concept</div>
+      <p class="about-strip-desc">Founded in Hamburg in 1949, BAEHR has become the world standard for professional foot and hand cosmeceuticals — trusted by podiatrists, dermatologists, and beauty academies in 40+ countries.</p>
+      <div class="about-stats">
+        <div class="a-stat"><div class="a-stat-n">75+</div><div class="a-stat-l">Years</div></div>
+        <div class="a-stat"><div class="a-stat-n">40+</div><div class="a-stat-l">Countries</div></div>
+        <div class="a-stat"><div class="a-stat-n">ISO</div><div class="a-stat-l">Certified</div></div>
+      </div>
+      <button class="btn btn-red">Discover Our Story →</button>
+    </div>
+  </div>
+
+  <!-- SEMINAR SECTION -->
+  <div class="seminar-strip">
+    <div class="seminar-content">
+      <div class="seminar-eyebrow">Professional Development</div>
+      <div class="seminar-title">BAEHR<br>Seminars &<br>Training</div>
+      <p class="seminar-desc">We organise regular professional development seminars in Spain, equipping practitioners with the latest BAEHR treatment protocols and product knowledge.</p>
+      <div class="seminar-feats">
+        <div class="feat-row">Hands-on practical training sessions</div>
+        <div class="feat-row">Product knowledge and treatment protocols</div>
+        <div class="feat-row">Certificate of completion included</div>
+        <div class="feat-row">Available for salon teams and individual practitioners</div>
+      </div>
+      <button class="btn btn-red">View Upcoming Seminars →</button>
+    </div>
+    <div class="seminar-img">
+      <img src="https://i.ibb.co.com/pjsR2xcH/Screenshot-61-Copy.jpg" alt="BAEHR Seminar training room" style="width:100%;height:100%;object-fit:cover;">
+    </div>
+  </div>
+
+  <!-- USP BAR -->
+  <div class="usp-bar">
+    <div class="usp-item"><div class="usp-icon">🚚</div><div><div class="usp-title">Free Shipping</div><div class="usp-text">On all orders over €60</div></div></div>
+    <div class="usp-item"><div class="usp-icon">🇩🇪</div><div><div class="usp-title">German Quality</div><div class="usp-text">ISO certified since 1949</div></div></div>
+    <div class="usp-item"><div class="usp-icon">↩️</div><div><div class="usp-title">30-Day Returns</div><div class="usp-text">Hassle-free returns policy</div></div></div>
+    <div class="usp-item"><div class="usp-icon">💬</div><div><div class="usp-title">Expert Support</div><div class="usp-text">Mon–Fri 9:00–18:00</div></div></div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-top">
+      <div>
+        <div class="logo-box" style="padding:5px 12px;"><span class="logo-text" style="font-size:20px;">BAEHR<span class="logo-sup" style="font-size:9px;">®</span></span></div>
+        <p class="footer-desc">Official exclusive distributor of BAEHR professional cosmetics in Spain. Bringing 75+ years of German innovation to beauty professionals, podiatrists and salons across Spain.</p>
+      </div>
+      <div>
+        <div class="footer-col-title">Products</div>
+        <ul class="footer-links"><li><a href="#">Foot Cosmetics</a></li><li><a href="#">Hand Care</a></li><li><a href="#">Nail & Cuticle</a></li><li><a href="#">Therapeutic</a></li><li><a href="#">Instruments</a></li><li><a href="#">Gift Sets</a></li></ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Company</div>
+        <ul class="footer-links"><li><a href="#">About BAEHR</a></li><li><a href="#">Seminars</a></li><li><a href="#">Pro Account</a></li><li><a href="#">Distributors</a></li><li><a href="#">Contact</a></li></ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Help</div>
+        <ul class="footer-links"><li><a href="#">FAQ</a></li><li><a href="#">Shipping Info</a></li><li><a href="#">Returns</a></li><li><a href="#">Privacy Policy</a></li><li><a href="#">Cookies</a></li></ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 BAEHR España / Proxy Beauty Spain SL · All rights reserved</span>
+      <div class="f-badges"><span class="f-badge">🇩🇪 Germany</span><span class="f-badge">🇪🇸 Spain</span><span class="f-badge">ISO Certified</span></div>
+    </div>
+  </footer>
+</div>
+
+<!-- ========== PAGE 2: CONTENT PAGE ========== -->
+<div class="page" id="p2">
+  <div class="tmpl-label">Template 02 — General Content Page (About / Brand / Category)</div>
+  <div class="topbar">🇩🇪 German professional cosmetics since 1949 &nbsp;·&nbsp; <strong>Free shipping over €60</strong> &nbsp;·&nbsp; ISO Certified Quality</div>
+    <header class="site-hdr">
+    <div class="hdr-logo"><div class="logo-box"><span class="logo-text">BAEHR<span class="logo-sup">®</span></span></div><span class="hdr-sub">España</span></div>
+    <nav class="hdr-nav">
+      <a href="#">Home</a><a href="#">Foot Care</a><a href="#">Hand Care</a>
+      <a href="#">Nails</a><a href="#">Instruments</a><a href="#">Pro Line</a><a href="#">About</a>
+    </nav>
+    <div class="hdr-search"><input type="text" placeholder="Search products, ingredients…"><button>🔍</button></div>
+    <div class="hdr-actions">
+      <button class="icon-btn">👤 Account</button>
+      <button class="icon-btn" >🛒 Cart <span class="badge" >3</span></button>
+    </div>
+  </header>
+
+  <!-- PAGE HERO / BREADCRUMB -->
+  <div class="content-hero">
+    <div class="breadcrumb">Home <span class="bc-sep">/</span> <span>About the Brand</span></div>
+    <div class="content-hero-title">German <span>Precision</span><br>In Skin Science</div>
+    <p class="content-hero-desc">Since 1949, BAEHR has set the benchmark for professional foot and hand care cosmeceuticals — trusted by clinics, salons and practitioners in over 40 countries worldwide.</p>
+  </div>
+
+  <!-- MAIN 2-COLUMN LAYOUT -->
+  <div class="content-layout">
+    <!-- MAIN CONTENT -->
+    <div class="content-main">
+      <h2>The <span>BAEHR</span> Story</h2>
+      <p>Gustav Baer, an entrepreneur from Hamburg, developed a revolutionary concept in 1949 for the production of high-quality cosmetics specifically designed for the treatment of foot conditions. What began as a single product line quickly became the industry standard for professional podiatry care across Germany and, within a decade, throughout Europe.</p>
+      <p>The brand's philosophy has always been simple: combine advanced German science with the most effective active ingredients — not for mass-market appeal, but for genuine, measurable results. Every formulation is developed to meet the rigorous standards demanded by medical practitioners and aesthetic professionals alike.</p>
+
+      <!-- BRAND IMAGE — Trade fair booth -->
+      <div class="content-img-block">
+        <img src="https://i.ibb.co.com/zTrBQCfR/Screenshot-60-Copy.jpg" alt="BAEHR trade fair presence" style="width:100%;height:300px;object-fit:cover;object-position:center top;display:block;">
+      </div>
+
+      <div class="pullquote">
+        <p>"Quality that professionals demand and patients can feel — that has been our standard from the very first day."</p>
+      </div>
+
+      <h2>Why Professionals <span>Trust</span> BAEHR</h2>
+      <p>The proof of BAEHR's quality lies in its adoption by the medical community. Unlike cosmetic brands built around aesthetics alone, BAEHR products are formulated to treat, protect and restore skin. This is why they are found in podiatry clinics, dermatology practices and professional beauty academies worldwide.</p>
+      <ul>
+        <li>ISO certified production facilities ensuring pharmaceutical-grade quality</li>
+        <li>Formulations backed by clinical research and practitioner feedback across 40+ countries</li>
+        <li>Active ingredient concentrations (Urea 10–40%; Clotrimazole 1%; Hyaluronic Acid) for visible results</li>
+        <li>Extensive range: cream foams, balms, oils, ampoules, instruments, gift sets and seasonal specials</li>
+        <li>Available in professional salon sizes and home care retail sizes</li>
+      </ul>
+
+      <h2>Seminars & <span>Training</span></h2>
+      <!-- SEMINAR IMAGE -->
+      <div class="content-img-block">
+        <img src="https://i.ibb.co.com/pjsR2xcH/Screenshot-61-Copy.jpg" alt="BAEHR professional seminar" style="width:100%;height:260px;object-fit:cover;display:block;">
+      </div>
+      <p>Proxy Beauty Spain organises regular BAEHR professional development seminars across Spain. These sessions provide hands-on training in BAEHR treatment protocols, equipping practitioners with the skills and knowledge to deliver outstanding results for their clients.</p>
+      <ul>
+        <li>Practical, hands-on sessions covering the full BAEHR product range</li>
+        <li>Delivered by certified BAEHR trainers at venues across Spain</li>
+        <li>Certificate of completion provided to all attendees</li>
+        <li>Available for individual practitioners and full salon teams</li>
+      </ul>
+
+      <h2>BAEHR <span>in Spain</span></h2>
+      <p>Proxy Beauty Spain is the exclusive representative of BAEHR in the Spanish market. Our team offers personalised advice on product selection for specific treatment needs, and we host regular seminars for professionals who wish to deepen their expertise in cosmeceutical treatments and podiatry protocols.</p>
+      <p>We supply hundreds of salons, clinics and individual practitioners across Spain with the full BAEHR product catalogue. Our dedicated professional account service ensures that every customer has access to the products, support and training they need.</p>
+    </div>
+
+    <!-- SIDEBAR -->
+    <div class="content-sidebar">
+      <!-- Categories widget -->
+      <div class="s-card">
+        <div class="s-card-head">Product Categories</div>
+        <div class="s-card-body">
+          <ul class="s-cat-list">
+            <li><a href="#">Foot Cosmetics <span class="s-cnt">48</span></a></li>
+            <li><a href="#">Hand Care <span class="s-cnt">24</span></a></li>
+            <li><a href="#">Therapeutic <span class="s-cnt">31</span></a></li>
+            <li><a href="#">Nails & Cuticles <span class="s-cnt">19</span></a></li>
+            <li><a href="#">Professional Line <span class="s-cnt">44</span></a></li>
+            <li><a href="#">Instruments <span class="s-cnt">62</span></a></li>
+            <li><a href="#">Face Cosmetics <span class="s-cnt">22</span></a></li>
+            <li><a href="#">Gift Sets <span class="s-cnt">12</span></a></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Top products widget -->
+      <div class="s-card">
+        <div class="s-card-head">Top Products</div>
+        <div class="s-card-body">
+          <div class="s-prod">
+            <div class="s-prod-img"><img src="https://i.ibb.co.com/tpmFJ7rc/Screenshot-70.jpg" alt="Cream Foam" style="width:100%;height:100%;object-fit:contain;"></div>
+            <div><div class="s-prod-name">PEDIBAEHR Cream Foam Propolis</div><div class="s-prod-price">€9.15</div></div>
+          </div>
+          <div class="s-prod">
+            <div class="s-prod-img"><img src="https://i.ibb.co.com/vv319YdX/Screenshot-71.jpg" alt="Ampullen" style="width:100%;height:100%;object-fit:contain;"></div>
+            <div><div class="s-prod-name">BAEHR Ampullen Cashmere</div><div class="s-prod-price">€18.50</div></div>
+          </div>
+          <div class="s-prod">
+            <div class="s-prod-img"><img src="https://i.ibb.co.com/8gwJ8k8t/Screenshot-67.jpg" alt="Satin Pearl" style="width:100%;height:100%;object-fit:contain;"></div>
+            <div><div class="s-prod-name">Satin-Pearl Handcreme</div><div class="s-prod-price">€14.75</div></div>
+          </div>
+          <div class="s-prod">
+            <div class="s-prod-img"><img src="https://i.ibb.co.com/39tWTQ8S/Screenshot-68.jpg" alt="Hand Cream" style="width:100%;height:100%;object-fit:contain;"></div>
+            <div><div class="s-prod-name">BAEHR Handcreme All Day</div><div class="s-prod-price">€12.40</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Gift widget -->
+      <div class="s-card">
+        <div class="s-card-head">Gift Sets</div>
+        <div class="s-card-body">
+          <div class="s-prod">
+            <div class="s-prod-img"><img src="https://i.ibb.co.com/vxFMkmRc/Screenshot-62.jpg" alt="Christmas Set" style="width:100%;height:100%;object-fit:contain;"></div>
+            <div><div class="s-prod-name">Frohe Weihnachten Trio</div><div class="s-prod-price">€22.90</div></div>
+          </div>
+          <div class="s-prod">
+            <div class="s-prod-img"><img src="https://i.ibb.co.com/d4Mm00mf/Screenshot-65.jpg" alt="Gold Bottle" style="width:100%;height:100%;object-fit:contain;"></div>
+            <div><div class="s-prod-name">Gold Body Lotion Bottle</div><div class="s-prod-price">€31.50</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pro account CTA -->
+      <div class="s-card" style="background:var(--dark);border-color:var(--red);">
+        <div class="s-card-head" style="background:var(--red);color:#fff;border-color:rgba(255,255,255,.2);">Professional Account</div>
+        <div class="s-card-body">
+          <p style="font-size:12px;color:rgba(255,255,255,.55);line-height:1.65;margin-bottom:14px;">Salons and clinics get exclusive pricing, bulk order access and a dedicated account manager.</p>
+          <button class="btn btn-red" style="width:100%;justify-content:center;font-size:11px;">Register Now →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BRAND STATS BAND -->
+  <div class="stats-band">
+    <div class="stat-cell"><div class="stat-n">1949</div><div class="stat-l">Year Founded in Hamburg</div></div>
+    <div class="stat-cell"><div class="stat-n">40+</div><div class="stat-l">Countries Worldwide</div></div>
+    <div class="stat-cell"><div class="stat-n">500+</div><div class="stat-l">Active Product SKUs</div></div>
+    <div class="stat-cell"><div class="stat-n">ISO</div><div class="stat-l">Certified Production</div></div>
+  </div>
+
+  <!-- YOU MAY ALSO LIKE — PRODUCT RECOMMENDATIONS -->
+  <div class="sec sec-alt">
+    <div class="sec-head">
+      <div>
+        <div class="sec-title">You May Also <span>Like</span></div>
+        <div class="sec-sub">Discover the most loved BAEHR products</div>
+      </div>
+      <button class="view-all">Browse all products</button>
+    </div>
+    <div class="prod-grid">
+            <div class="prod-card">
+        <div class="prod-img"><img src="https://i.ibb.co.com/tpmFJ7rc/Screenshot-70.jpg" alt="PEDIBAEHR Cremeschaum mit Propolis" style="width:100%;height:100%;object-fit:contain;"><div class="prod-tags"><span class="ptag ptag-pro">Pro</span></div><div class="prod-hover"><button class="add-btn">+ Add to Cart</button><button class="wish-btn">♡</button></div></div>
+        <div class="prod-body">
+          <div class="prod-cat">Foot Care · Antibacterial</div>
+          <div class="prod-name">PEDIBAEHR Cremeschaum mit Propolis</div>
+          <div class="prod-sub">50ml · Pump Dispenser</div>
+          <div class="prod-price-row"><span class="prod-price">€9.15</span></div>
+        </div>
+      </div>
+            <div class="prod-card">
+        <div class="prod-img"><img src="https://i.ibb.co.com/vv319YdX/Screenshot-71.jpg" alt="BAEHR Handcreme All Day" style="width:100%;height:100%;object-fit:contain;"><div class="prod-tags"><span class="ptag ptag-new">New</span></div><div class="prod-hover"><button class="add-btn">+ Add to Cart</button><button class="wish-btn">♡</button></div></div>
+        <div class="prod-body">
+          <div class="prod-cat">Hand Care · All Day</div>
+          <div class="prod-name">BAEHR Handcreme All Day</div>
+          <div class="prod-sub">75ml · Cranberry & Macadamia</div>
+          <div class="prod-price-row"><span class="prod-price">€12.40</span></div>
+        </div>
+      </div>
+            <div class="prod-card">
+        <div class="prod-img"><img src="https://i.ibb.co.com/8gwJ8k8t/Screenshot-67.jpg" alt="BAEHR Ampullen Cashmere" style="width:100%;height:100%;object-fit:contain;"><div class="prod-tags"><span class="ptag ptag-pro">Pro</span></div><div class="prod-hover"><button class="add-btn">+ Add to Cart</button><button class="wish-btn">♡</button></div></div>
+        <div class="prod-body">
+          <div class="prod-cat">Face · Ampoules</div>
+          <div class="prod-name">BAEHR Ampullen Cashmere</div>
+          <div class="prod-sub">10 × 2ml · Anti-Aging</div>
+          <div class="prod-price-row"><span class="prod-price">€18.50</span></div>
+        </div>
+      </div>
+            <div class="prod-card">
+        <div class="prod-img"><img src="https://i.ibb.co.com/39tWTQ8S/Screenshot-68.jpg" alt="Satin-Pearl Handcreme" style="width:100%;height:100%;object-fit:contain;"><div class="prod-hover"><button class="add-btn">+ Add to Cart</button><button class="wish-btn">♡</button></div></div>
+        <div class="prod-body">
+          <div class="prod-cat">Hand Care · Premium</div>
+          <div class="prod-name">Satin-Pearl Handcreme</div>
+          <div class="prod-sub">75ml · Anti-Aging Formula</div>
+          <div class="prod-price-row"><span class="prod-price">€14.75</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+    <div class="usp-bar">
+    <div class="usp-item"><div class="usp-icon">🚚</div><div><div class="usp-title">Free Shipping</div><div class="usp-text">On all orders over €60</div></div></div>
+    <div class="usp-item"><div class="usp-icon">🇩🇪</div><div><div class="usp-title">German Quality</div><div class="usp-text">ISO certified since 1949</div></div></div>
+    <div class="usp-item"><div class="usp-icon">↩️</div><div><div class="usp-title">30-Day Returns</div><div class="usp-text">Hassle-free returns policy</div></div></div>
+    <div class="usp-item"><div class="usp-icon">💬</div><div><div class="usp-title">Expert Support</div><div class="usp-text">Mon–Fri 9:00–18:00</div></div></div>
+  </div>
+    <footer class="footer">
+    <div class="footer-top">
+      <div>
+        <div class="logo-box" style="padding:5px 12px;"><span class="logo-text" style="font-size:20px;">BAEHR<span class="logo-sup" style="font-size:9px;">®</span></span></div>
+        <p class="footer-desc">Official exclusive distributor of BAEHR professional cosmetics in Spain. Bringing 75+ years of German innovation to beauty professionals, podiatrists and salons across Spain.</p>
+      </div>
+      <div>
+        <div class="footer-col-title">Products</div>
+        <ul class="footer-links">
+          <li><a href="#">Foot Cosmetics</a></li><li><a href="#">Hand Care</a></li>
+          <li><a href="#">Nail & Cuticle</a></li><li><a href="#">Therapeutic</a></li>
+          <li><a href="#">Instruments</a></li><li><a href="#">Gift Sets</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Company</div>
+        <ul class="footer-links">
+          <li><a href="#">About BAEHR</a></li><li><a href="#">Seminars & Training</a></li>
+          <li><a href="#">Pro Account</a></li><li><a href="#">Distributors</a></li>
+          <li><a href="#">Contact Us</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Help</div>
+        <ul class="footer-links">
+          <li><a href="#">FAQ</a></li><li><a href="#">Shipping Info</a></li>
+          <li><a href="#">Returns Policy</a></li><li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Cookies Policy</a></li><li><a href="#">LSSI / Legal</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 BAEHR España / Proxy Beauty Spain SL · All rights reserved</span>
+      <div class="f-badges">
+        <span class="f-badge">🇩🇪 Germany</span><span class="f-badge">🇪🇸 Spain</span>
+        <span class="f-badge">ISO Certified</span><span class="f-badge">Since 1949</span>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<!-- ========== PAGE 3: CART ========== -->
+<div class="page" id="p3">
+  <div class="tmpl-label">Template 03 — Basket / Cart</div>
+  <div class="topbar"><strong>🚚 Add €22.10 more for free shipping!</strong> &nbsp;·&nbsp; Free shipping on all orders over €60</div>
+    <header class="site-hdr">
+    <div class="hdr-logo"><div class="logo-box"><span class="logo-text">BAEHR<span class="logo-sup">®</span></span></div><span class="hdr-sub">España</span></div>
+    <nav class="hdr-nav">
+      <a href="#">Home</a><a href="#">Foot Care</a><a href="#">Hand Care</a>
+      <a href="#">Nails</a><a href="#">Instruments</a><a href="#">Pro Line</a><a href="#">About</a>
+    </nav>
+    <div class="hdr-search"><input type="text" placeholder="Search products, ingredients…"><button>🔍</button></div>
+    <div class="hdr-actions">
+      <button class="icon-btn">👤 Account</button>
+      <button class="icon-btn" style="color:var(--red);">🛒 Cart <span class="badge" >3</span></button>
+    </div>
+  </header>
+
+  <!-- FREE SHIPPING PROGRESS -->
+  <div class="ship-prog-bar" style="background:var(--off-white);border-bottom:1px solid var(--border);padding:12px 44px;">
+    <div style="max-width:1200px;margin:0 auto;display:flex;flex-direction:column;gap:8px;">
+      <div style="display:flex;justify-content:space-between;font-size:12px;font-weight:700;">
+        <span>Shopping Basket</span>
+        <span style="color:var(--red);">🚚 Add <strong>€22.10</strong> more for FREE shipping</span>
+      </div>
+      <div style="height:4px;background:var(--border);border-radius:99px;overflow:hidden;">
+        <div style="width:65%;height:100%;background:var(--red);border-radius:99px;"></div>
+      </div>
+      <div style="font-size:11px;color:var(--muted);">You have spent €37.90 · Free shipping unlocks at €60.00</div>
+    </div>
+  </div>
+
+  <div class="cart-wrap">
+    <div class="page-title">Your Basket</div>
+    <p class="page-sub">3 items &nbsp;·&nbsp; Estimated delivery 2–3 business days</p>
+
+    <div class="cart-layout">
+      <!-- CART ITEMS COLUMN -->
+      <div>
+        <div class="cart-head">
+          <div style="grid-column:1/3;">Product</div>
+          <div>Unit Price</div>
+          <div>Quantity</div>
+          <div style="text-align:right;">Total</div>
+        </div>
+
+        <!-- Item 1 -->
+        <div class="cart-row">
+          <div class="c-img"><img src="https://i.ibb.co.com/tpmFJ7rc/Screenshot-70.jpg" alt="Cream Foam" style="width:100%;height:100%;object-fit:contain;"></div>
+          <div>
+            <div class="c-name">PEDIBAEHR Cremeschaum mit Propolis</div>
+            <div class="c-meta">50ml · Foot Care · Ref: BH-2241 · Antibacterial Formula</div>
+            <div style="display:flex;gap:10px;align-items:center;margin-top:4px;">
+              <span style="font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;background:var(--light-grey);padding:2px 6px;color:var(--muted);">In Stock</span>
+              <button class="c-rem">✕ Remove</button>
+              <button class="c-rem" style="color:var(--muted);">♡ Save for later</button>
+            </div>
+          </div>
+          <div class="c-unit">€9.15</div>
+          <div><div class="qty"><button class="qty-b">−</button><input class="qty-v" value="2" readonly><button class="qty-b">+</button></div></div>
+          <div class="c-total">€18.30</div>
+        </div>
+
+        <!-- Item 2 -->
+        <div class="cart-row">
+          <div class="c-img"><img src="https://i.ibb.co.com/vv319YdX/Screenshot-71.jpg" alt="Hand Cream" style="width:100%;height:100%;object-fit:contain;"></div>
+          <div>
+            <div class="c-name">BAEHR Handcreme All Day — Cranberry & Macadamia</div>
+            <div class="c-meta">75ml · Hand Care · Ref: BH-1187</div>
+            <div style="display:flex;gap:10px;align-items:center;margin-top:4px;">
+              <span style="font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;background:var(--light-grey);padding:2px 6px;color:var(--muted);">In Stock</span>
+              <button class="c-rem">✕ Remove</button>
+              <button class="c-rem" style="color:var(--muted);">♡ Save for later</button>
+            </div>
+          </div>
+          <div class="c-unit">€12.40</div>
+          <div><div class="qty"><button class="qty-b">−</button><input class="qty-v" value="1" readonly><button class="qty-b">+</button></div></div>
+          <div class="c-total">€12.40</div>
+        </div>
+
+        <!-- Item 3 -->
+        <div class="cart-row">
+          <div class="c-img"><img src="https://i.ibb.co.com/39tWTQ8S/Screenshot-68.jpg" alt="Satin Pearl" style="width:100%;height:100%;object-fit:contain;"></div>
+          <div>
+            <div class="c-name">Satin-Pearl Handcreme — Anti-Aging Formula</div>
+            <div class="c-meta">75ml · Hand Care · Ref: BH-0892</div>
+            <div style="display:flex;gap:10px;align-items:center;margin-top:4px;">
+              <span style="font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;background:var(--light-grey);padding:2px 6px;color:var(--muted);">In Stock</span>
+              <button class="c-rem">✕ Remove</button>
+              <button class="c-rem" style="color:var(--muted);">♡ Save for later</button>
+            </div>
+          </div>
+          <div class="c-unit">€14.75</div>
+          <div><div class="qty"><button class="qty-b">−</button><input class="qty-v" value="1" readonly><button class="qty-b">+</button></div></div>
+          <div class="c-total">€14.75</div>
+        </div>
+
+        <!-- Cart actions -->
+        <div style="padding:18px 0;display:flex;gap:10px;border-bottom:1px solid var(--border);">
+          <button class="btn btn-outline btn-sm">← Continue Shopping</button>
+          <button class="btn btn-outline btn-sm" style="color:var(--muted);">↻ Update Cart</button>
+        </div>
+
+        <!-- CROSS-SELL / FREQUENTLY BOUGHT TOGETHER -->
+        <div class="cross-sell">
+          <div class="cross-sell-title">Frequently Bought Together</div>
+          <div class="cross-grid">
+            <div class="cross-card">
+              <div class="cross-img"><img src="https://i.ibb.co.com/8gwJ8k8t/Screenshot-67.jpg" alt="Ampullen" style="width:100%;height:100%;object-fit:contain;"></div>
+              <div><div class="cross-name">BAEHR Ampullen Cashmere</div><div class="cross-price">€18.50</div></div>
+              <button class="cross-add">+</button>
+            </div>
+            <div class="cross-card">
+              <div class="cross-img"><img src="https://i.ibb.co.com/YTDgv1h5/Screenshot-64.jpg" alt="Handpeeling" style="width:100%;height:100%;object-fit:contain;"></div>
+              <div><div class="cross-name">Vanillekipferl Handpeeling</div><div class="cross-price">€11.40</div></div>
+              <button class="cross-add">+</button>
+            </div>
+            <div class="cross-card">
+              <div class="cross-img"><img src="https://i.ibb.co.com/WpzCWYR7/Screenshot-66.jpg" alt="Hydracolor" style="width:100%;height:100%;object-fit:contain;"></div>
+              <div><div class="cross-name">HYDRACOLOR Lip Balm SPF50</div><div class="cross-price">€8.50</div></div>
+              <button class="cross-add">+</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- RECENTLY VIEWED / YOU MAY ALSO LIKE -->
+        <div style="margin-top:24px;">
+          <div style="font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--text);margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--border);">You May Also Like</div>
+          <div class="prod-grid prod-grid-3" style="background:var(--border);gap:1px;">
+                  <div class="prod-card">
+        <div class="prod-img"><img src="https://i.ibb.co.com/z06ksqq/Screenshot-63.jpg" alt="BAEHR Massagekerze — Japanese Plum" style="width:100%;height:100%;object-fit:contain;"><div class="prod-hover"><button class="add-btn">+ Add to Cart</button><button class="wish-btn">♡</button></div></div>
+        <div class="prod-body">
+          <div class="prod-cat">Wellness · Massage</div>
+          <div class="prod-name">BAEHR Massagekerze — Japanese Plum</div>
+          <div class="prod-sub">50ml tin · Massage Oil Candle</div>
+          <div class="prod-price-row"><span class="prod-price">€19.80</span></div>
+        </div>
+      </div>
+                  <div class="prod-card">
+        <div class="prod-img"><img src="https://i.ibb.co.com/vxFMkmRc/Screenshot-62.jpg" alt="Frohe Weihnachten — Foot Cream Trio" style="width:100%;height:100%;object-fit:contain;"><div class="prod-tags"><span class="ptag ptag-new">Seasonal</span></div><div class="prod-hover"><button class="add-btn">+ Add to Cart</button><button class="wish-btn">♡</button></div></div>
+        <div class="prod-body">
+          <div class="prod-cat">Gift Sets · Christmas</div>
+          <div class="prod-name">Frohe Weihnachten — Foot Cream Trio</div>
+          <div class="prod-sub">3 × 30ml tubes · Gift Box</div>
+          <div class="prod-price-row"><span class="prod-price">€22.90</span></div>
+        </div>
+      </div>
+                  <div class="prod-card">
+        <div class="prod-img"><img src="https://i.ibb.co.com/d4Mm00mf/Screenshot-65.jpg" alt="BAEHR Gold Body Lotion Champagne" style="width:100%;height:100%;object-fit:contain;"><div class="prod-tags"><span class="ptag ptag-sale">Limited</span></div><div class="prod-hover"><button class="add-btn">+ Add to Cart</button><button class="wish-btn">♡</button></div></div>
+        <div class="prod-body">
+          <div class="prod-cat">Body · Luxury Edition</div>
+          <div class="prod-name">BAEHR Gold Body Lotion Champagne</div>
+          <div class="prod-sub">200ml · Gold-leaf bottle design</div>
+          <div class="prod-price-row"><span class="prod-price">€31.50</span></div>
+        </div>
+      </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ORDER SUMMARY SIDEBAR -->
+      <div>
+        <div class="os">
+          <div class="os-title">Order Summary</div>
+          <!-- Coupon -->
+          <div class="coup-row">
+            <input class="coup-input" placeholder="Discount code or voucher">
+            <button class="btn btn-dark btn-sm">Apply</button>
+          </div>
+          <div class="os-row"><span class="os-l">Subtotal (4 items)</span><span class="os-v">€45.45</span></div>
+          <div class="os-row"><span class="os-l">Shipping</span><span class="os-v" style="color:var(--muted);">Calculated at checkout</span></div>
+          <div class="os-row"><span class="os-l">VAT (21% incl.)</span><span class="os-v">€9.54</span></div>
+          <div class="os-total"><span class="os-total-l">Total</span><span class="os-total-v">€54.99</span></div>
+          <button class="btn btn-red" style="width:100%;justify-content:center;font-size:13px;padding:15px 28px;">Proceed to Checkout →</button>
+          <div style="text-align:center;margin-top:9px;font-size:11px;color:var(--muted);">or <a href="#" style="color:var(--text);font-weight:600;">continue shopping</a></div>
+          <div class="trust-row">
+            <div class="trust-item">🔒<br>Secure</div>
+            <div class="trust-item">💳<br>All Cards</div>
+            <div class="trust-item">↩️<br>30-day</div>
+            <div class="trust-item">🚚<br>Fast</div>
+          </div>
+        </div>
+
+        <!-- Payment icons -->
+        <div class="pay-box" style="margin-top:10px;">
+          <div class="pay-title">Accepted Payment Methods</div>
+          <div class="pay-row">
+            <span class="pay-icon">VISA</span>
+            <span class="pay-icon">MC</span>
+            <span class="pay-icon">PayPal</span>
+            <span class="pay-icon">Bizum</span>
+            <span class="pay-icon">Transfer</span>
+          </div>
+        </div>
+
+        <!-- Delivery info box -->
+        <div style="margin-top:10px;padding:16px;background:var(--off-white);border:1px solid var(--border);">
+          <div style="font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--text);margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid var(--border);">Delivery Information</div>
+          <div style="display:flex;flex-direction:column;gap:8px;">
+            <div style="display:flex;gap:8px;align-items:flex-start;font-size:11px;color:var(--muted);">
+              <span>🚚</span><span><strong style="color:var(--text);">Standard Delivery</strong><br>2–3 business days · from €4.95</span>
+            </div>
+            <div style="display:flex;gap:8px;align-items:flex-start;font-size:11px;color:var(--muted);">
+              <span>⚡</span><span><strong style="color:var(--text);">Express Delivery</strong><br>Next business day · from €8.95</span>
+            </div>
+            <div style="display:flex;gap:8px;align-items:flex-start;font-size:11px;color:var(--muted);">
+              <span>📦</span><span><strong style="color:var(--text);">Free Shipping</strong><br>On all orders over €60</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Returns policy box -->
+        <div style="margin-top:10px;padding:14px;border:1px solid var(--border);display:flex;gap:10px;align-items:flex-start;">
+          <span style="font-size:20px;flex-shrink:0;">↩️</span>
+          <div>
+            <div style="font-size:11px;font-weight:700;color:var(--text);margin-bottom:3px;">30-Day Returns</div>
+            <div style="font-size:11px;color:var(--muted);line-height:1.5;">Not happy? Return any item within 30 days for a full refund — no questions asked.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- USP STRIP -->
+    <div class="usp-bar">
+    <div class="usp-item"><div class="usp-icon">🚚</div><div><div class="usp-title">Free Shipping</div><div class="usp-text">On all orders over €60</div></div></div>
+    <div class="usp-item"><div class="usp-icon">🇩🇪</div><div><div class="usp-title">German Quality</div><div class="usp-text">ISO certified since 1949</div></div></div>
+    <div class="usp-item"><div class="usp-icon">↩️</div><div><div class="usp-title">30-Day Returns</div><div class="usp-text">Hassle-free returns policy</div></div></div>
+    <div class="usp-item"><div class="usp-icon">💬</div><div><div class="usp-title">Expert Support</div><div class="usp-text">Mon–Fri 9:00–18:00</div></div></div>
+  </div>
+
+  <!-- FOOTER -->
+    <footer class="footer">
+    <div class="footer-top">
+      <div>
+        <div class="logo-box" style="padding:5px 12px;"><span class="logo-text" style="font-size:20px;">BAEHR<span class="logo-sup" style="font-size:9px;">®</span></span></div>
+        <p class="footer-desc">Official exclusive distributor of BAEHR professional cosmetics in Spain. Bringing 75+ years of German innovation to beauty professionals, podiatrists and salons across Spain.</p>
+      </div>
+      <div>
+        <div class="footer-col-title">Products</div>
+        <ul class="footer-links">
+          <li><a href="#">Foot Cosmetics</a></li><li><a href="#">Hand Care</a></li>
+          <li><a href="#">Nail & Cuticle</a></li><li><a href="#">Therapeutic</a></li>
+          <li><a href="#">Instruments</a></li><li><a href="#">Gift Sets</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Company</div>
+        <ul class="footer-links">
+          <li><a href="#">About BAEHR</a></li><li><a href="#">Seminars & Training</a></li>
+          <li><a href="#">Pro Account</a></li><li><a href="#">Distributors</a></li>
+          <li><a href="#">Contact Us</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Help</div>
+        <ul class="footer-links">
+          <li><a href="#">FAQ</a></li><li><a href="#">Shipping Info</a></li>
+          <li><a href="#">Returns Policy</a></li><li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Cookies Policy</a></li><li><a href="#">LSSI / Legal</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 BAEHR España / Proxy Beauty Spain SL · All rights reserved</span>
+      <div class="f-badges">
+        <span class="f-badge">🇩🇪 Germany</span><span class="f-badge">🇪🇸 Spain</span>
+        <span class="f-badge">ISO Certified</span><span class="f-badge">Since 1949</span>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<!-- ========== PAGE 4: CONFIRMATION ========== -->
+<div class="page" id="p4">
+  <div class="tmpl-label">Template 04 — Order Completion / Checkout Confirmation</div>
+  <div class="topbar">🇩🇪 German professional cosmetics since 1949 &nbsp;·&nbsp; <strong>Thank you for your order!</strong></div>
+    <header class="site-hdr">
+    <div class="hdr-logo"><div class="logo-box"><span class="logo-text">BAEHR<span class="logo-sup">®</span></span></div><span class="hdr-sub">España</span></div>
+    <nav class="hdr-nav">
+      <a href="#">Home</a><a href="#">Foot Care</a><a href="#">Hand Care</a>
+      <a href="#">Nails</a><a href="#">Instruments</a><a href="#">Pro Line</a><a href="#">About</a>
+    </nav>
+    <div class="hdr-search"><input type="text" placeholder="Search products, ingredients…"><button>🔍</button></div>
+    <div class="hdr-actions">
+      <button class="icon-btn">👤 Account</button>
+      <button class="icon-btn" >🛒 Cart <span class="badge" style="background:var(--mid-grey);color:var(--text);">0</span></button>
+    </div>
+  </header>
+
+  <!-- ORDER CONFIRMATION CONTENT -->
+  <div class="confirm-wrap" style="background:var(--off-white);padding:52px 44px;display:flex;justify-content:center;">
+    <div class="confirm-inner">
+
+      <!-- SUCCESS HEADER -->
+      <div class="confirm-head">
+        <div class="confirm-check">✓</div>
+        <div class="confirm-title">Order <span>Confirmed!</span></div>
+        <p class="confirm-sub">Thank you, María! Your order has been received and is now being prepared for dispatch. A confirmation email has been sent to <strong>maria.garcia@email.com</strong></p>
+        <div class="ord-ref">Order reference: <code>#BH-ES-20251104-0847</code></div>
+      </div>
+
+      <!-- WHAT HAPPENS NEXT BANNER -->
+      <div class="ns-banner">
+        <div class="ns-icon">📦</div>
+        <div>
+          <div class="ns-title">What happens next?</div>
+          <div class="ns-text">Your order will be dispatched within 1 business day from our warehouse in Spain. You'll receive a tracking number by email once your parcel is with MRW courier. <strong style="color:rgba(255,255,255,.8);">Estimated delivery: 4–6 November 2025.</strong></div>
+        </div>
+      </div>
+
+      <!-- PROGRESS STEPS -->
+      <div style="background:var(--white);border:1px solid var(--border);padding:20px 22px;margin-bottom:14px;">
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:0;position:relative;">
+          <div style="position:absolute;top:16px;left:12.5%;right:12.5%;height:2px;background:var(--border);z-index:0;"></div>
+          <div style="position:absolute;top:16px;left:12.5%;width:25%;height:2px;background:var(--red);z-index:1;"></div>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:6px;position:relative;z-index:2;">
+            <div style="width:32px;height:32px;border-radius:50%;background:var(--red);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;">✓</div>
+            <div style="font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--red);text-align:center;">Order Placed</div>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:6px;position:relative;z-index:2;">
+            <div style="width:32px;height:32px;border-radius:50%;background:var(--red);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;">✓</div>
+            <div style="font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--red);text-align:center;">Confirmed</div>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:6px;position:relative;z-index:2;">
+            <div style="width:32px;height:32px;border-radius:50%;background:var(--border);display:flex;align-items:center;justify-content:center;font-size:14px;">📦</div>
+            <div style="font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);text-align:center;">Processing</div>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:6px;position:relative;z-index:2;">
+            <div style="width:32px;height:32px;border-radius:50%;background:var(--border);display:flex;align-items:center;justify-content:center;font-size:14px;">🚚</div>
+            <div style="font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);text-align:center;">Delivered</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ITEMS ORDERED -->
+      <div class="c-block">
+        <div class="c-block-head"><span class="c-block-title">Items Ordered</span><span style="font-size:10px;color:var(--muted);">3 items</span></div>
+        <div class="c-block-body">
+          <div class="oi-row">
+            <div class="oi-img"><img src="https://i.ibb.co.com/tpmFJ7rc/Screenshot-70.jpg" alt="Cream Foam" style="width:100%;height:100%;object-fit:contain;"></div>
+            <div><div class="oi-name">PEDIBAEHR Cremeschaum mit Propolis</div><div class="oi-meta">50ml · Ref: BH-2241 · Qty: 2</div></div>
+            <div class="oi-price">€18.30</div>
+          </div>
+          <div class="oi-row">
+            <div class="oi-img"><img src="https://i.ibb.co.com/vv319YdX/Screenshot-71.jpg" alt="Hand Cream" style="width:100%;height:100%;object-fit:contain;"></div>
+            <div><div class="oi-name">BAEHR Handcreme All Day</div><div class="oi-meta">75ml · Ref: BH-1187 · Qty: 1</div></div>
+            <div class="oi-price">€12.40</div>
+          </div>
+          <div class="oi-row">
+            <div class="oi-img"><img src="https://i.ibb.co.com/39tWTQ8S/Screenshot-68.jpg" alt="Satin Pearl" style="width:100%;height:100%;object-fit:contain;"></div>
+            <div><div class="oi-name">Satin-Pearl Handcreme</div><div class="oi-meta">75ml · Ref: BH-0892 · Qty: 1</div></div>
+            <div class="oi-price">€14.75</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ORDER TOTALS -->
+      <div class="totals-block">
+        <div class="t-row"><span class="t-label">Subtotal</span><span class="t-val">€45.45</span></div>
+        <div class="t-row"><span class="t-label">Shipping (Standard — MRW Spain)</span><span class="t-val">€4.95</span></div>
+        <div class="t-row"><span class="t-label">VAT (21% included)</span><span class="t-val">€9.54</span></div>
+        <div class="t-total"><span class="t-total-label">Total Paid</span><span class="t-total-val">€59.94</span></div>
+      </div>
+
+      <!-- DELIVERY + PAYMENT INFO -->
+      <div class="c-block">
+        <div class="c-block-head"><span class="c-block-title">Delivery & Payment Details</span></div>
+        <div class="info-grid">
+          <div class="info-cell">
+            <div class="info-label">Ship To</div>
+            <div class="info-val"><strong>María García López</strong><br>Calle Mayor 42, 3°B<br>28013 Madrid, Spain</div>
+          </div>
+          <div class="info-cell">
+            <div class="info-label">Delivery Method</div>
+            <div class="info-val"><strong>Standard Courier — MRW Spain</strong><br>Est. delivery: 4–6 November 2025<br><span style="color:var(--muted);font-size:11px;">Tracking number sent by email</span></div>
+          </div>
+          <div class="info-cell">
+            <div class="info-label">Payment</div>
+            <div class="info-val"><strong>Visa</strong> ending ···· 4821<br>Charged 1 Nov 2025<br><span style="color:var(--muted);font-size:11px;">€59.94 deducted</span></div>
+          </div>
+          <div class="info-cell">
+            <div class="info-label">Invoice</div>
+            <div class="info-val"><strong>Invoice #2025-ES-2847</strong><br>Billing: same as delivery<br><a href="#">⬇ Download PDF Invoice →</a></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ACTION BUTTONS -->
+      <div class="confirm-actions" style="margin-top:16px;">
+        <button class="btn btn-red">Continue Shopping →</button>
+        <button class="btn btn-outline">View My Orders</button>
+        <button class="btn btn-outline" style="margin-left:auto;">⬇ Download Invoice</button>
+      </div>
+
+      <!-- PRO ACCOUNT UPSELL -->
+      <div class="pro-upsell" style="margin-top:20px;padding:22px;background:var(--dark);display:flex;gap:16px;align-items:center;border-bottom:3px solid var(--red);">
+        <div class="pu-icon">👩‍⚕️</div>
+        <div style="flex:1;">
+          <div class="pu-title">Are you a beauty professional or podiatrist?</div>
+          <div class="pu-text">Open a professional account and access exclusive pricing, training seminars, and a dedicated BAEHR account manager for your salon or clinic.</div>
+        </div>
+        <button class="btn btn-red btn-sm" style="flex-shrink:0;white-space:nowrap;">Apply for Pro Account →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- YOU MIGHT ALSO LIKE — POST-PURCHASE RECOMMENDATIONS -->
+  <div class="sec" style="background:var(--white);">
+    <div class="sec-head">
+      <div>
+        <div class="sec-title">You Might Also <span>Love</span></div>
+        <div class="sec-sub">Complete your BAEHR routine with these popular products</div>
+      </div>
+      <button class="view-all">Browse all products</button>
+    </div>
+    <div class="prod-grid">
+            <div class="prod-card">
+        <div class="prod-img"><img src="https://i.ibb.co.com/8gwJ8k8t/Screenshot-67.jpg" alt="BAEHR Ampullen Cashmere" style="width:100%;height:100%;object-fit:contain;"><div class="prod-tags"><span class="ptag ptag-pro">Pro</span></div><div class="prod-hover"><button class="add-btn">+ Add to Cart</button><button class="wish-btn">♡</button></div></div>
+        <div class="prod-body">
+          <div class="prod-cat">Face · Ampoules</div>
+          <div class="prod-name">BAEHR Ampullen Cashmere</div>
+          <div class="prod-sub">10 × 2ml · Anti-Aging Treatment</div>
+          <div class="prod-price-row"><span class="prod-price">€18.50</span></div>
+        </div>
+      </div>
+            <div class="prod-card">
+        <div class="prod-img"><img src="https://i.ibb.co.com/YTDgv1h5/Screenshot-64.jpg" alt="Vanillekipferl Handpeeling" style="width:100%;height:100%;object-fit:contain;"><div class="prod-tags"><span class="ptag ptag-new">New</span></div><div class="prod-hover"><button class="add-btn">+ Add to Cart</button><button class="wish-btn">♡</button></div></div>
+        <div class="prod-body">
+          <div class="prod-cat">Hand · Peeling</div>
+          <div class="prod-name">Vanillekipferl Handpeeling</div>
+          <div class="prod-sub">75ml · Dry Skin Formula</div>
+          <div class="prod-price-row"><span class="prod-price">€11.40</span></div>
+        </div>
+      </div>
+            <div class="prod-card">
+        <div class="prod-img"><img src="https://i.ibb.co.com/z06ksqq/Screenshot-63.jpg" alt="BAEHR Massagekerze — Japanese Plum" style="width:100%;height:100%;object-fit:contain;"><div class="prod-hover"><button class="add-btn">+ Add to Cart</button><button class="wish-btn">♡</button></div></div>
+        <div class="prod-body">
+          <div class="prod-cat">Wellness · Body</div>
+          <div class="prod-name">BAEHR Massagekerze — Japanese Plum</div>
+          <div class="prod-sub">50ml tin · Massage Oil Candle</div>
+          <div class="prod-price-row"><span class="prod-price">€19.80</span></div>
+        </div>
+      </div>
+            <div class="prod-card">
+        <div class="prod-img"><img src="https://i.ibb.co.com/vxFMkmRc/Screenshot-62.jpg" alt="Frohe Weihnachten — Foot Cream Trio" style="width:100%;height:100%;object-fit:contain;"><div class="prod-tags"><span class="ptag ptag-new">Seasonal</span></div><div class="prod-hover"><button class="add-btn">+ Add to Cart</button><button class="wish-btn">♡</button></div></div>
+        <div class="prod-body">
+          <div class="prod-cat">Gift Sets · Christmas</div>
+          <div class="prod-name">Frohe Weihnachten — Foot Cream Trio</div>
+          <div class="prod-sub">3 × 30ml tubes · Luxury Box</div>
+          <div class="prod-price-row"><span class="prod-price">€22.90</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GIFT SETS BANNER -->
+  <div class="promo" style="min-height:280px;">
+    <div class="promo-l" style="padding:44px 52px;">
+      <div class="promo-eyebrow">Seasonal Specials · BAEHR</div>
+      <div class="promo-title" style="font-size:40px;">Discover Our<br>Gift Range</div>
+      <p class="promo-desc" style="font-size:13px;">Beautiful BAEHR gift sets for every occasion — Christmas, birthdays, anniversaries. Expertly packaged and ready to give.</p>
+      <div class="promo-ctas">
+        <button class="btn btn-dark">Shop Gift Sets →</button>
+        <button class="btn btn-outline-wh btn-sm">View Seasonal</button>
+      </div>
+    </div>
+    <div class="promo-r" style="display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--red-dark);">
+      <div style="background:var(--red-dark);display:flex;align-items:center;justify-content:center;padding:20px;">
+        <img src="https://i.ibb.co.com/vxFMkmRc/Screenshot-62.jpg" alt="Gift Set" style="width:140px;height:140px;object-fit:contain;">
+      </div>
+      <div style="background:rgba(0,0,0,.15);display:flex;align-items:center;justify-content:center;padding:20px;">
+        <img src="https://i.ibb.co.com/d4Mm00mf/Screenshot-65.jpg" alt="Gold Bottle" style="width:120px;height:160px;object-fit:contain;">
+      </div>
+      <div style="background:rgba(0,0,0,.15);display:flex;align-items:center;justify-content:center;padding:20px;">
+        <img src="https://i.ibb.co.com/SwYpqmTW/Screenshot-69.jpg" alt="Christmas Box" style="width:120px;height:140px;object-fit:contain;">
+      </div>
+      <div style="background:rgba(0,0,0,.25);display:flex;align-items:center;justify-content:center;padding:20px;">
+        <img src="https://i.ibb.co.com/jPw94kT2/Screenshot-72.jpg" alt="Organza Bag" style="width:100px;height:130px;object-fit:contain;">
+      </div>
+    </div>
+  </div>
+
+  <!-- USP STRIP -->
+    <div class="usp-bar">
+    <div class="usp-item"><div class="usp-icon">🚚</div><div><div class="usp-title">Free Shipping</div><div class="usp-text">On all orders over €60</div></div></div>
+    <div class="usp-item"><div class="usp-icon">🇩🇪</div><div><div class="usp-title">German Quality</div><div class="usp-text">ISO certified since 1949</div></div></div>
+    <div class="usp-item"><div class="usp-icon">↩️</div><div><div class="usp-title">30-Day Returns</div><div class="usp-text">Hassle-free returns policy</div></div></div>
+    <div class="usp-item"><div class="usp-icon">💬</div><div><div class="usp-title">Expert Support</div><div class="usp-text">Mon–Fri 9:00–18:00</div></div></div>
+  </div>
+
+  <!-- FOOTER -->
+    <footer class="footer">
+    <div class="footer-top">
+      <div>
+        <div class="logo-box" style="padding:5px 12px;"><span class="logo-text" style="font-size:20px;">BAEHR<span class="logo-sup" style="font-size:9px;">®</span></span></div>
+        <p class="footer-desc">Official exclusive distributor of BAEHR professional cosmetics in Spain. Bringing 75+ years of German innovation to beauty professionals, podiatrists and salons across Spain.</p>
+      </div>
+      <div>
+        <div class="footer-col-title">Products</div>
+        <ul class="footer-links">
+          <li><a href="#">Foot Cosmetics</a></li><li><a href="#">Hand Care</a></li>
+          <li><a href="#">Nail & Cuticle</a></li><li><a href="#">Therapeutic</a></li>
+          <li><a href="#">Instruments</a></li><li><a href="#">Gift Sets</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Company</div>
+        <ul class="footer-links">
+          <li><a href="#">About BAEHR</a></li><li><a href="#">Seminars & Training</a></li>
+          <li><a href="#">Pro Account</a></li><li><a href="#">Distributors</a></li>
+          <li><a href="#">Contact Us</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Help</div>
+        <ul class="footer-links">
+          <li><a href="#">FAQ</a></li><li><a href="#">Shipping Info</a></li>
+          <li><a href="#">Returns Policy</a></li><li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Cookies Policy</a></li><li><a href="#">LSSI / Legal</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 BAEHR España / Proxy Beauty Spain SL · All rights reserved</span>
+      <div class="f-badges">
+        <span class="f-badge">🇩🇪 Germany</span><span class="f-badge">🇪🇸 Spain</span>
+        <span class="f-badge">ISO Certified</span><span class="f-badge">Since 1949</span>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<!-- ========== PAGE 5: STYLE GUIDE ========== -->
+<div class="page" id="p5">
+  <div class="tmpl-label">Style Guide — Design System Reference</div>
+  <div class="sg-intro">
+    <h1>BAEHR España — <span>Style Guide</span></h1>
+    <p>Complete design token reference for the development team. All values are CSS custom properties. Covers colours, typography, buttons, spacing, form states and component anatomy.</p>
+  </div>
+  <div class="sg-sec">
+    <div class="sg-title">01 — Colour Palette · CSS Custom Properties</div>
+    <div class="color-grid">
+      <div class="swatch"><div class="sw-block" style="background:#CC0000;border:none;"></div><div class="sw-name">--red</div><div class="sw-hex">#CC0000</div></div>
+      <div class="swatch"><div class="sw-block" style="background:#A50000;border:none;"></div><div class="sw-name">--red-dark</div><div class="sw-hex">#A50000</div></div>
+      <div class="swatch"><div class="sw-block" style="background:#FFF0F0;"></div><div class="sw-name">--red-light</div><div class="sw-hex">#FFF0F0</div></div>
+      <div class="swatch"><div class="sw-block" style="background:#FFFFFF;"></div><div class="sw-name">--white</div><div class="sw-hex">#FFFFFF</div></div>
+      <div class="swatch"><div class="sw-block" style="background:#F9F8F6;"></div><div class="sw-name">--off-white</div><div class="sw-hex">#F9F8F6</div></div>
+      <div class="swatch"><div class="sw-block" style="background:#F2F2F0;"></div><div class="sw-name">--light-grey</div><div class="sw-hex">#F2F2F0</div></div>
+      <div class="swatch"><div class="sw-block" style="background:#E8E8E4;"></div><div class="sw-name">--mid-grey</div><div class="sw-hex">#E8E8E4</div></div>
+      <div class="swatch"><div class="sw-block" style="background:#E0E0DC;"></div><div class="sw-name">--border</div><div class="sw-hex">#E0E0DC</div></div>
+      <div class="swatch"><div class="sw-block" style="background:#111111;border:none;"></div><div class="sw-name">--text</div><div class="sw-hex">#111111</div></div>
+      <div class="swatch"><div class="sw-block" style="background:#76756F;border:none;"></div><div class="sw-name">--muted</div><div class="sw-hex">#76756F</div></div>
+      <div class="swatch"><div class="sw-block" style="background:#181818;border:none;"></div><div class="sw-name">--dark</div><div class="sw-hex">#181818</div></div>
+    </div>
+  </div>
+  <div class="sg-sec sg-sec-alt">
+    <div class="sg-title">02 — Typography · Google Fonts (Free)</div>
+    <div style="padding:12px 16px;background:var(--white);border:1px solid var(--border);font-size:11px;color:var(--muted);margin-bottom:20px;"><strong style="color:var(--text);">Load via Google Fonts:</strong> Barlow Condensed (headings) + Barlow (body/UI)<br><code style="font-size:10px;color:#666;">family=Barlow:wght@300;400;500;600;700;800;900&family=Barlow+Condensed:wght@400;500;600;700;800;900</code></div>
+    <div class="type-samples">
+      <div><div class="type-label">Hero H1 · Barlow Condensed 900 · 68px · UPPER · lh 0.92</div><div style="font-family:var(--font-h);font-size:68px;font-weight:900;text-transform:uppercase;line-height:.92;color:var(--text);">German <span style="color:var(--red);">Science</span> For Your Skin</div></div>
+      <div><div class="type-label">Section H2 · Barlow Condensed 900 · 40px · UPPER · lh 0.95</div><div style="font-family:var(--font-h);font-size:40px;font-weight:900;text-transform:uppercase;line-height:.95;color:var(--text);">Top <span style="color:var(--red);">Sellers</span> This Month</div></div>
+      <div><div class="type-label">Content H2 · Barlow Condensed 800 · 30px · UPPER</div><div style="font-family:var(--font-h);font-size:30px;font-weight:800;text-transform:uppercase;color:var(--text);">The <span style="color:var(--red);">BAEHR</span> Story</div></div>
+      <div><div class="type-label">Body · Barlow 400 · 14px · lh 1.75</div><div style="font-size:14px;line-height:1.75;color:#2a2a2a;max-width:540px;">Gustav Baer developed a revolutionary concept in 1949 for the production of high-quality cosmetics specifically designed for the treatment of foot conditions.</div></div>
+      <div><div class="type-label">UI / Nav · Barlow 700 · 11px · 0.06em · UPPERCASE</div><div style="font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--text);">Foot Care · Hand Care · Pro Line · Add to Cart → Proceed to Checkout</div></div>
+      <div><div class="type-label">Price · Barlow Condensed 700 · 22px</div><div style="font-family:var(--font-h);font-size:22px;font-weight:700;color:var(--text);">€18.50 <span style="font-size:13px;color:var(--muted);text-decoration:line-through;font-family:var(--font-b);font-weight:400;">€21.80</span></div></div>
+    </div>
+  </div>
+  <div class="sg-sec">
+    <div class="sg-title">03 — Button States</div>
+    <div class="btn-grid">
+      <div><div class="dev-tag">.btn.btn-red — Primary CTA</div><div class="btn-row-demo"><button class="btn btn-red">Default</button><button class="btn btn-red" style="background:var(--red-dark);">Hover</button><button class="btn btn-red" style="opacity:.4;cursor:not-allowed;">Disabled</button><button class="btn btn-red btn-sm">Small</button></div><div class="code-note">bg: #CC0000 → hover: #A50000 · pad: 13px 28px · Barlow 700 / 12px / 0.06em / UPPER</div></div>
+      <div><div class="dev-tag">.btn.btn-dark — Secondary CTA</div><div class="btn-row-demo"><button class="btn btn-dark">Default</button><button class="btn btn-dark" style="background:#2a2a2a;">Hover</button><button class="btn btn-dark" style="opacity:.4;cursor:not-allowed;">Disabled</button></div><div class="code-note">bg: #181818 → hover: #2a2a2a · pad: 13px 28px · Barlow 700 / 12px / 0.06em / UPPER</div></div>
+      <div><div class="dev-tag">.btn.btn-outline — Ghost button</div><div class="btn-row-demo"><button class="btn btn-outline">Default</button><button class="btn btn-outline" style="border-color:var(--text);">Hover</button><button class="btn btn-outline" style="opacity:.4;cursor:not-allowed;">Disabled</button></div><div class="code-note">bg: transparent · border: 2px solid #E0E0DC → hover: #111 · pad: 11px 26px</div></div>
+      <div style="padding:20px;background:var(--dark);"><div class="dev-tag" style="background:#252525;border-color:#555;color:#aaa;">.btn.btn-outline-wh (dark bg)</div><div class="btn-row-demo"><button class="btn btn-outline-wh">Default</button><button class="btn btn-outline-wh" style="border-color:#fff;background:rgba(255,255,255,.08);">Hover</button></div></div>
+    </div>
+  </div>
+  <div class="sg-sec sg-sec-alt">
+    <div class="sg-title">04 — Spacing Scale (4px base unit)</div>
+    <div class="space-demo">
+      <div><div class="sp-block" style="width:4px;height:4px;"></div><div class="sp-val">4</div></div>
+      <div><div class="sp-block" style="width:8px;height:8px;"></div><div class="sp-val">8</div></div>
+      <div><div class="sp-block" style="width:12px;height:12px;"></div><div class="sp-val">12</div></div>
+      <div><div class="sp-block" style="width:16px;height:16px;"></div><div class="sp-val">16</div></div>
+      <div><div class="sp-block" style="width:20px;height:20px;"></div><div class="sp-val">20</div></div>
+      <div><div class="sp-block" style="width:24px;height:24px;"></div><div class="sp-val">24</div></div>
+      <div><div class="sp-block" style="width:32px;height:32px;"></div><div class="sp-val">32</div></div>
+      <div><div class="sp-block" style="width:44px;height:44px;"></div><div class="sp-val">44</div></div>
+      <div><div class="sp-block" style="width:52px;height:52px;"></div><div class="sp-val">52</div></div>
+      <div><div class="sp-block" style="width:60px;height:60px;"></div><div class="sp-val">60</div></div>
+    </div>
+    <div style="margin-top:14px;font-size:11px;color:var(--muted);">Base: <strong style="color:var(--text);">4px</strong> · Section padding: 60px vertical / 44px horizontal · Max width: 1280px · Header: 66px</div>
+  </div>
+  <div class="sg-sec">
+    <div class="sg-title">05 — Form Input States</div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px;max-width:860px;">
+      <div><div class="dev-tag">Default</div><input style="width:100%;border:1px solid var(--border);padding:11px 13px;font-size:13px;font-family:var(--font-b);background:var(--white);color:var(--text);outline:none;" placeholder="Placeholder text"></div>
+      <div><div class="dev-tag">Focus</div><input style="width:100%;border:1px solid var(--red);padding:11px 13px;font-size:13px;font-family:var(--font-b);background:var(--white);color:var(--text);outline:none;" value="Focused input"></div>
+      <div><div class="dev-tag">Error</div><input style="width:100%;border:1px solid var(--red);padding:11px 13px;font-size:13px;font-family:var(--font-b);background:#FDF2F2;color:var(--text);outline:none;" value="Invalid value"><div style="font-size:11px;color:var(--red);margin-top:3px;font-weight:600;">⚠ Required field</div></div>
+    </div>
+    <div style="margin-top:14px;font-size:10px;font-family:monospace;color:var(--muted);">Border-radius: 0 · Focus → border: 1px solid #CC0000 · Error → bg: #FDF2F2 + border: #CC0000 · Font: 13px Barlow</div>
+  </div>
+  <div class="sg-sec sg-sec-alt">
+    <div class="sg-title">06 — Logo Usage Rules</div>
+    <div style="display:flex;gap:28px;align-items:flex-start;flex-wrap:wrap;margin-bottom:20px;">
+      <div style="display:flex;flex-direction:column;gap:8px;"><div class="dev-tag">Primary (red bg)</div><div class="logo-box" style="padding:8px 18px;"><span class="logo-text" style="font-size:28px;">BAEHR<span class="logo-sup" style="font-size:12px;">®</span></span></div></div>
+      <div style="display:flex;flex-direction:column;gap:8px;"><div class="dev-tag">On dark bg</div><div style="background:var(--dark);padding:14px 18px;display:inline-flex;"><div class="logo-box"><span class="logo-text" style="font-size:28px;">BAEHR<span class="logo-sup" style="font-size:12px;">®</span></span></div></div></div>
+      <div style="display:flex;flex-direction:column;gap:8px;"><div class="dev-tag">With España tag</div><div style="display:flex;align-items:center;gap:9px;padding:9px 13px;background:var(--off-white);border:1px solid var(--border);"><div class="logo-box"><span class="logo-text" style="font-size:20px;">BAEHR<span class="logo-sup" style="font-size:9px;">®</span></span></div><span style="font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);">España</span></div></div>
+    </div>
+    <div style="padding:12px 16px;background:var(--red-light);border:1px solid var(--red);font-size:12px;color:var(--red);font-weight:600;">⚠ Do not alter the BAEHR logo. Only use on red (#CC0000), dark (#181818), or white backgrounds. Never apply gradients, shadows, or colour changes to the logo mark.</div>
+  </div>
+</div>
+
+<script>
+function show(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.dev-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  const map={p1:0,p2:1,p3:2,p4:3,p5:4};
+  document.querySelectorAll('.dev-tab')[map[id]].classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
+</body>
+</html>
